@@ -19,11 +19,7 @@ const Navbar = (props) => {
           <img src={logo} alt="...loading" className='w-7 h-7 ml-4 md:w-10 md:h-10 md:ml-9' />
           <p className='text-xl font-bold'> Note Manager</p>
         </div>
-        <ul className={`md:flex items-center hidden cursor-pointer  `}>
-          <li className='mx-4 text-lg font-semibold hover:border-b-2 border-black dark:border-white  transition duration-1000 '>Home</li>
-          <li className='mx-4 text-lg font-semibold hover:border-b-2 border-black dark:border-white transition duration-1000 '>About</li>
-          <li className='mx-4 text-lg font-semibold hover:border-b-2 border-black dark:border-white transition duration-1000 '>Contact</li>
-        </ul>
+       
 
         <div className='flex items-center'>
           <div onClick={() => { props.toggleMode(); setdark(!dark) }} className='cursor-pointer'>

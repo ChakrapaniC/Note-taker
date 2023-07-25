@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <div className={`${darkMode ? 'dark' : ''} `}>
-        <div className=' font-sans bg-custom-white dark:bg-black transition duration-300 ease-in-out'>
+        <div className=' font-sans bg-custom-white dark:bg-black relative transition duration-300 ease-in-out'>
          <Navbar toggleMode={toggleMode}/>
          <Home/>
         </div>

@@ -35,12 +35,30 @@ module.exports = {
             // transform: 'scale(1)',
             opacity: 1,
           }
+        },
+        slideDown:{
+          '0%' :{
+            transform: 'scaleY(0)',
+          },
+          '100%': {
+            transform: 'scaleY(1)',
+          }
+        },
+        slideUp:{
+          '0%' :{
+            transform: 'scaleY(1)',
+          },
+          '100%': {
+            transform: 'scaleY(0)',
+          }
         }
       },
       animation: {
         'slide-in': 'slideIn 0.50s ease-in-out',
-        'slide-out': 'slideOut 1s ease-in-out',
-        'pop-up' : 'popUp 0.70s ease-out'
+        'slide-out': 'slideOut 0.30s ease-in-out',
+        'pop-up' : 'popUp 0.70s ease-out',
+        'slide-down':'slideDown 0.30s ease',
+        'slide-up':'slideUp 0.30s ease'
       },
     },
   },
