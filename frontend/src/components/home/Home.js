@@ -19,7 +19,7 @@ const Home = () => {
     <>
 
       <div className='w-full  flex  '>
-        <aside className={`  md:w-[20%] ${isOpen ? 'w-[60%] z-[50] animate-slide-in' : 'w-0 z-0 overflow-hidden animate-slide-out delay-300'} md:animate-none md:z-0 md:block absolute z-[50] top-0 left-0 md:static  md:shadow-none shadow-md  `} >
+        <aside className={`  md:w-[20%] ${isOpen ? 'w-[60%] z-[50] animate-slide-in' : 'w-0 z-0 overflow-hidden animate-slide-out delay-300'} md:animate-none md:z-0 md:block fixed z-[50] top-0 left-0 md:static  md:shadow-none shadow-md  `} >
           <Sidebar toggleMenu={toggleMenu} />
         </aside>
 

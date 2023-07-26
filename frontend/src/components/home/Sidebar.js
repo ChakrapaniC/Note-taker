@@ -4,11 +4,11 @@ import avatar from '../image/avatar.png'
 const Sidebar = (props) => {
     return (
         <>
-            <div className={`md:w-[80%] w-[100%] h-screen md:h-[800px] md:mx-auto mt-10 shadow-md  bg-white dark:bg-slate-900 dark:text-white  rounded-lg border-none`}>
+            <div className={`md:w-[80%] w-[100%] h-screen md:h-[800px] md:mx-auto mt-10 shadow-md sticky bg-white dark:bg-slate-900 dark:text-white  rounded-lg border-none`}>
                 <div className=' hover:text-red-500 text-3xl inline-block absolute right-2 top-2 md:hidden ' onClick={props.toggleMenu}>
                     <ion-icon name="close-outline"></ion-icon>
                 </div>
-                <div className='flex items-center  g-3  py-8 px-4 text-xl border-b-2 '>
+                <div className='flex items-center   g-3  py-8 px-4 text-xl border-b-2 '>
                     <img src={avatar} alt="avatr" className='w-[70px] h-[70px]  shadow-sm filter-drop' />
                     <p>peterParker</p>
                 </div>

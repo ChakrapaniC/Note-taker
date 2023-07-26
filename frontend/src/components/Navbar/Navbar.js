@@ -13,7 +13,7 @@ const Navbar = (props) => {
   }
   return (
     <>
-      <nav className='bg-white w-full min-h-[45px]  md:h-[55px] shadow-lg dark:text-white dark:bg-slate-900 flex flex-wrap justify-between items-center transition duration-300 ease-in-out'>
+      <nav className='bg-white w-full min-h-[45px]  md:h-[55px] shadow-lg dark:text-white dark:bg-slate-900 flex flex-wrap justify-between items-center '>
 
         <div className='flex gap-2 md:gap-5 items-center'>
           <img src={logo} alt="...loading" className='w-7 h-7 ml-4 md:w-10 md:h-10 md:ml-9' />
