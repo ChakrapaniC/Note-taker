@@ -1,13 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import  {notesApi}  from './features/api/apiSlice'
+import { Provider } from 'react-redux';
+import store from './store/Store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+ 
+    <Provider store={store}>
+      <ApiProvider api={notesApi}>
+        <App />
+        </ApiProvider>
+    </Provider>
+  
 );
 
 // If you want your app to work offline and load faster, you can change

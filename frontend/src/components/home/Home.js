@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useGetNotesQuery }  from '../../features/api/apiSlice';
 
 
 import Card from './Card';
@@ -8,9 +9,15 @@ import Head from './Head';
 
 
 const Home = () => {
+  const {data} = useGetNotesQuery();
   const [isOpen, setisOpen] = useState(false);
   const [grid, setgrid] = useState(true);
+  const [Notes, setNotes] = useState({})
+  
 
+  if(data){
+    console.log(data);
+  }
   function toggleMenu() {
     setisOpen(!isOpen);
   }
