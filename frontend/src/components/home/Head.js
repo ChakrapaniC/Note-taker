@@ -1,9 +1,21 @@
 import React from 'react';
 import pen from '../image/edit.png';
 import { useState } from 'react';
+import { useAddNoteMutation } from '../../features/api/apiSlice';
 
 const Head = () => {
     const [Note, setNote] = useState(false);
+    const [Title, setTitle] = useState('');
+    const [Description, setDescription] = useState('');
+
+    const [addNote] = useAddNoteMutation();
+
+    const AddNote = () =>{
+       addNote({title: Title, description: Description});
+       setNote(false);
+       setTitle('');
+       setDescription('');
+    }
     return (
         <>
             <div className='w-[95%] mx-auto p-6 mt-2 md:mt-10 bg-white  dark:bg-slate-900 dark:text-white rounded-lg relative'>
@@ -15,13 +27,13 @@ const Head = () => {
                     </button>
 
                     <div className='my-5 w-[80%]' >
-                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='Title' />
+                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='Title' onChange={(e)=>{setTitle(e.target.value)}}/>
                     </div>
                     <div className=' my-5 w-[80%]'>
-                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='make a note..' />
+                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='make a note..' onChange={(e)=>{setDescription(e.target.value)}} />
                     </div>
                     <div className='flex items-center gap-4   justify-end '>
-                        <button className='border-2 border-black hover:bg-black hover:text-white py-2 px-3 rounded-md'>Add</button>
+                        <button className='border-2 border-black hover:bg-black hover:text-white py-2 px-3 rounded-md' onClick={AddNote}>Add</button>
                         <button className='border-1 py-2 px-3 rounded-md bg-slate-800 text-white hover:bg-black' onClick={()=> setNote(false)}>Close</button>
                     </div>
                 </div>

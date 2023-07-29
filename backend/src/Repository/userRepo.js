@@ -1,5 +1,6 @@
 const NoteModel = require('../Model/userModel');
 const { v4: uuidv4 } = require('uuid');
+
 function getNotes() {
     return new Promise((resolve, reject) => {
         NoteModel.find().then((data) => {
@@ -12,43 +13,74 @@ function getNotes() {
 
 function addNote(note) {
     return new Promise((resolve, reject) => {
-        const newnote = new NoteModel({
-            _id: uuidv4(),
-            title: note.title,
-            description: note.description
+        NoteModel.findOne({ _id: note.body._id }).then((data) => {
+            console.log(note.body._id);
+            if (data) {
+                NoteModel.findOneAndUpdate(
+                    { _id: note.body._id },
+                    {
+                        $push: {
+                            Notes: {
+                                _id: uuidv4(),
+                                title: note.body.title,
+                                description: note.body.description
+                            }
+                        }
+                    }
+                ).then((data) => {
+                    if (data) {
+                        resolve('note added');
+                    } else {
+                        reject('error occurred');
+                    }
+                }).catch((err) => {
+                    reject(err);
+                });
+            } else {
+                let newnote = new NoteModel({
+                    _id: note.body._id,
+                    Notes: [{
+                        _id: uuidv4(),
+                        title: note.body.title,
+                        description: note.body.description,
+                    }]
+                });
 
-        });
-
-        newnote.save().then(() => {
-            resolve('new note crerated successfully')
-        }).catch((err) => {
-            reject(err)
-        })
-    })
-}
-
-function deleteNote(id) {
-    return new Promise((resolve, reject) => {
-        NoteModel.deleteOne({ _id: id }).then((data) => {
-            resolve(data);
+                newnote.save().then(() => {
+                    resolve('new note created successfully');
+                }).catch((err) => {
+                    reject(err);
+                });
+            }
         }).catch((err) => {
             reject(err);
-        })
-    })
+        });
+    });
 }
 
-function updateNote(id, note) {
-    return new Promise((resolve, reject) => {
-        let newnote = new NoteModel({
-            title: note.title,
-            description: note.description
-        });
 
-        NoteModel.findOneAndUpdate({ _id: id }, newnote).then((data) => {
-            resolve(data);
-        }).catch((err) => {
-            reject(err)
-        })
+
+
+
+
+
+
+function deleteNote(note) {
+    return new Promise((resolve, reject) => {
+        console.log(note.params.id)
+        NoteModel.findOneAndUpdate({ _id: note.body._id }, { $pull: { Notes: { _id: note.params.id } } })
+            .then((data) => {
+                resolve(data)
+            })
+            .catch((err) => {
+                reject(err); 
+            });
+    });
+}
+
+function updateNote( note) {
+    return new Promise((resolve, reject) => {
+      //working on it
     })
 }
 

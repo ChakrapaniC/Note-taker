@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useGetNotesQuery }  from '../../features/api/apiSlice';
+
 
 
 import Card from './Card';
@@ -9,15 +9,12 @@ import Head from './Head';
 
 
 const Home = () => {
-  const {data} = useGetNotesQuery();
+
   const [isOpen, setisOpen] = useState(false);
   const [grid, setgrid] = useState(true);
-  const [Notes, setNotes] = useState({})
-  
 
-  if(data){
-    console.log(data);
-  }
+
+  
   function toggleMenu() {
     setisOpen(!isOpen);
   }
@@ -25,7 +22,7 @@ const Home = () => {
   return (
     <>
 
-      <div className='w-full  flex  '>
+      <div className='w-full flex'>
         <aside className={`  md:w-[20%] ${isOpen ? 'w-[60%] z-[50] animate-slide-in' : 'w-0 z-0 overflow-hidden animate-slide-out delay-300'} md:animate-none md:z-0 md:block fixed z-[50] top-0 left-0 md:static  md:shadow-none shadow-md  `} >
           <Sidebar toggleMenu={toggleMenu} />
         </aside>

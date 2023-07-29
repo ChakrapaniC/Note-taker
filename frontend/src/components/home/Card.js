@@ -1,16 +1,36 @@
-import React from 'react'
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useGetNotesQuery } from '../../features/api/apiSlice';
 
 const Card = (props) => {
-    const arr = ['card 1', 'card 2', 'card 3', 'card 4', 'card 5', 'card 6', ]
+   
+    const arr = ['card 1', 'card 2', 'card 3', 'card 4', 'card 5', 'card 6',];
+
+    const { data } = useGetNotesQuery();
+    if(data){
+        console.log(data)
+    }
+
+
+
+
     return (
         <>
             {
                 props.grid ?
-                    <div className='flex flex-wrap justify-center items-center flex-col  md:flex-row md:justify-between p-5 animate-pop-up'>
+                    <div className='flex flex-wrap justify-center items-center flex-col  md:flex-row md:justify-normal  animate-pop-up'>
                         {
-                            arr.map(item => (
-                                <div className='m-4 w-[250px] h-[250px] items-center border-yellow-400 border-2'>
-                                    <p>{item}</p>
+                            data?.map(item => (
+                                <div className='my-4 md:m-4 w-[350px] h-[250px] relative items-center bg-custom-white border-none  rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400'>
+                                    <div className='border-b-2 px-3 h-[50px] flex items-center text-lg font-semibold'>
+                                        <p>{item.Notes[0]?.title}</p>
+                                    </div>
+                                    <div className='p-3 h-[150px]  text-justify'>
+                                        <p>{item.Notes[0]?.description}</p>
+                                    </div>
+                                    <div className='absolute bottom-0 border-t-2 w-full h-[50px] flex items-center px-3'>
+                                        <p>28 Jul 2023</p>
+                                    </div>
                                 </div>
                             ))
                         }
