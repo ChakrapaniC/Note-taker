@@ -78,10 +78,17 @@ function deleteNote(note) {
     });
 }
 
-function updateNote( note) {
-    return new Promise((resolve, reject) => {
-      //working on it
-    })
+function updateNote(note) {
+    return new Promise((resole,reject)=>{
+        NoteModel.findOneAndUpdate({_id :note.body._id },{ $set: { "Notes.$[elem].title": note.body.title,"Notes.$[elem].description": note.body.description } },
+        { arrayFilters: [{ "elem._id": note.params.id }], new: true })
+        .then((data)=>{
+            resole(data);
+        })
+        .catch((err)=>{
+            reject(err)
+        })
+    });
 }
 
 module.exports = { getNotes, addNote, deleteNote, updateNote };

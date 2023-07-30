@@ -11,7 +11,7 @@ const Head = () => {
     const [addNote] = useAddNoteMutation();
 
     const AddNote = () =>{
-       addNote({title: Title, description: Description});
+       addNote({_id:"1",title: Title, description: Description});
        setNote(false);
        setTitle('');
        setDescription('');

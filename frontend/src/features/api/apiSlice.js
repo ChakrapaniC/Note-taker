@@ -19,10 +19,10 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
             invalidatesTags: ['Notes']
         }),
         deleteNote: builder.mutation({
-            query: ({id})=>({
-                url:`/delete/${id}`,
+            query: (id) =>({
+                url:`/delete/`,
                 method:'DELETE',
-                body:id
+                body:id,
             }),
             invalidatesTags: ['Notes']
         }),
