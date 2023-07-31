@@ -51,6 +51,14 @@ module.exports = {
           '100%': {
             transform: 'scaleY(0)',
           }
+        },
+        slideTop:{
+          '0%' :{
+            transform: 'translateY(-100%)',
+          },
+          '100%': {
+            transform: 'translateY(0%)',
+          }
         }
       },
       animation: {
@@ -58,7 +66,8 @@ module.exports = {
         'slide-out': 'slideOut 0.30s ease-in-out',
         'pop-up' : 'popUp 0.70s ease-out',
         'slide-down':'slideDown 0.30s ease',
-        'slide-up':'slideUp 0.30s ease'
+        'slide-up':'slideUp 0.30s ease',
+        'slide-top':'slideTop 0.50s ease'
       },
     },
   },

@@ -6,7 +6,9 @@ import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 import  {notesApi}  from './features/api/apiSlice'
 import { Provider } from 'react-redux';
 import store from './store/Store';
+import 'react-toastify/dist/ReactToastify.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
  
     <Provider store={store}>

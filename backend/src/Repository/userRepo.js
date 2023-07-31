@@ -67,8 +67,7 @@ function addNote(note) {
 
 function deleteNote(note) {
     return new Promise((resolve, reject) => {
-        console.log(note.params.id)
-        NoteModel.findOneAndUpdate({ _id: note.body._id }, { $pull: { Notes: { _id: note.params.id } } })
+        NoteModel.findOneAndUpdate({ _id: note.body._id }, { $pull: { Notes: { _id: note.body.NoteId } } })
             .then((data) => {
                 resolve(data)
             })

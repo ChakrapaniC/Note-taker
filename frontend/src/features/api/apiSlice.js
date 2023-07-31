@@ -7,7 +7,10 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
     endpoints: (builder) =>({
         getNotes: builder.query({
            query: ()=> `/notes`,
-           transformResponse: res => res.sort((a,b)=> b.id - a.id),
+           transformResponse:(response)=>{
+            response.reverse();
+            return response
+           },
            providesTags: ['Notes']
         }),
         addNote: builder.mutation({
@@ -20,7 +23,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
         }),
         deleteNote: builder.mutation({
             query: (id) =>({
-                url:`/delete/`,
+                url:`/delete/${id}`,
                 method:'DELETE',
                 body:id,
             }),
@@ -31,7 +34,8 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
                 url:`/update/${note.id}`,
                 method:"PUT",
                 body: note
-            })
+            }),
+            invalidatesTags:["Notes"]
         })
     })
 })

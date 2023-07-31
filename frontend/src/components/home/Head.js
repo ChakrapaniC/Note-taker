@@ -2,16 +2,28 @@ import React from 'react';
 import pen from '../image/edit.png';
 import { useState } from 'react';
 import { useAddNoteMutation } from '../../features/api/apiSlice';
+import { toast } from 'react-toastify';
 
 const Head = () => {
     const [Note, setNote] = useState(false);
     const [Title, setTitle] = useState('');
     const [Description, setDescription] = useState('');
+    
 
     const [addNote] = useAddNoteMutation();
 
     const AddNote = () =>{
        addNote({_id:"1",title: Title, description: Description});
+       toast.success('Add Note Success', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
        setNote(false);
        setTitle('');
        setDescription('');
