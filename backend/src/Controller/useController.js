@@ -26,4 +26,18 @@ function UpdateNote(req, res) {
         res.status(200).send(data)
     })
 }
-module.exports = { GetNotes, AddNote, DeleteNote, UpdateNote }
+function UpdateFav(req, res) {
+    repo.updateFav(req).then(data => {
+        res.status(200).send(data)
+    })
+}
+
+function SetArcheive(req, res) {
+    console.log(req.body)
+    repo.setArcheive(req).then(data => {
+        res.status(200).send(data)
+    })
+}
+
+
+module.exports = { GetNotes, AddNote, DeleteNote, UpdateNote, UpdateFav,SetArcheive }

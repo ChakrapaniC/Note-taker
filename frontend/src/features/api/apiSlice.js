@@ -36,8 +36,25 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
                 body: note
             }),
             invalidatesTags:["Notes"]
+        }),
+        updateFavorite: builder.mutation({
+            query: (note)=>({
+                url:`/updateFav/${note.id}`,
+                method:"PUT",
+                body: note
+            }),
+            invalidatesTags:["Notes"]
+        }),
+        setArcheive: builder.mutation({
+            query: (note)=>({
+                url:`/updateArcheive/${note.id}`,
+                method:"PUT",
+                body: note,
+               
+            }),
+            invalidatesTags:["Notes"],
         })
     })
 })
 
-export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation} = notesApi;
+export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation} = notesApi;

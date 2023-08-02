@@ -2,21 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
-import  {notesApi}  from './features/api/apiSlice'
+// import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+// import  {notesApi}  from './features/api/apiSlice'
 import { Provider } from 'react-redux';
 import store from './store/Store';
 import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
- 
+  <BrowserRouter>
     <Provider store={store}>
-      <ApiProvider api={notesApi}>
-        <App />
-        </ApiProvider>
+       <App />
     </Provider>
-  
+    </BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

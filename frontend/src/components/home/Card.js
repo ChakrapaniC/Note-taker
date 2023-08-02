@@ -1,24 +1,32 @@
 import React from 'react';
 import { useState } from 'react';
-import { useDeleteNoteMutation, useGetNotesQuery, useUpdateNoteMutation } from '../../features/api/apiSlice';
+import { useDeleteNoteMutation, useGetNotesQuery, useSetArcheiveMutation, useUpdateFavoriteMutation, useUpdateNoteMutation } from '../../features/api/apiSlice';
 import moment from 'moment';
 import { ScaleLoader } from 'react-spinners';
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 const Card = (props) => {
-
+    const { item } = props
     const [EditCard, setEditCard] = useState(false);
-    const arr = ['card1', 'card2'];
-    const { data, isLoading } = useGetNotesQuery();
+
+    const [isFavorite, setisFavorite] = useState(false);
+    const [isArcheive, setisArcheive] = useState(false);
     const [title, settitle] = useState('');
     const [description, setdescription] = useState('');
     const [NoteId, setNoteId] = useState();
+    const { data, isLoading } = useGetNotesQuery();
 
-    if (data) {
-        console.log(data[0].Notes)
+    const arr = ['card1', 'card2'];
+    const addNote = useSelector((state) => state.toggle);
+
+    if (addNote) {
+        console.log(addNote)
     }
+
     const [deleteItem] = useDeleteNoteMutation();
     const [updateItem] = useUpdateNoteMutation();
+    const [updateFav] = useUpdateFavoriteMutation();
+    const [updateArcheive] = useSetArcheiveMutation();
 
     const deleteNote = (id) => {
         deleteItem({ "_id": "1", "NoteId": id });
@@ -34,12 +42,32 @@ const Card = (props) => {
             draggable: true,
             progress: undefined,
             theme: "colored",
-            });
+        });
         settitle('');
         setdescription('');
         setEditCard(false);
     }
 
+    const updateFavorite = (id) => {
+        console.log(isFavorite)
+        updateFav({ _id: "1", isFav: isFavorite, id: id });
+    }
+
+    const UpdateArcheive = (id) => {
+       console.log(id)
+        updateArcheive({ _id: "1", isArcheive: isArcheive, id: id }).then((data)=>{
+            toast.success('Note Added In Archeive', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        });
+    }
     if (isLoading) {
         return <div className=' flex justify-center items-center'><ScaleLoader color="red" /></div>
     }
@@ -47,27 +75,39 @@ const Card = (props) => {
     return (
         <>
             {
-                props.grid ?
-                    <div className='flex flex-wrap justify-center items-center flex-col  md:flex-row md:justify-normal  animate-pop-up'>
-                        {
-                            data !== undefined && data[0]?.Notes?.map(({ _id, createdAt, title, description }) => (
-                                <div className='my-6 md:m-4 w-[350px] h-[250px] relative items-center bg-custom-white dark:bg-slate-800 border-none  rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400'>
-                                    <div className='border-b-2 px-3 h-[50px] flex items-center justify-between text-lg font-semibold'>
-                                        <p>{title}</p>
-                                        <RiDeleteBin6Line onClick={() => { deleteNote(_id) }} />
+                true ?
+                    <div className='flex justify-center items-center flex-col  md:flex-row md:justify-normal  animate-pop-up '>
+
+
+                        <div className={` ${item.archeive ? 'hideen' : 'block'} my-6  md:m-4 w-[350px] h-[250px]  relative items-center bg-custom-white dark:bg-slate-800 border-none  rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400`}>
+                            <div className='border-b-2 px-3 h-[50px] flex items-center justify-between text-lg font-semibold'>
+                                <p>{item.title}</p>
+                                <div className='flex gap-2'>
+                                    <div className={`${item.isFav ? 'text-red-500' : ''}`} onClick={() => { updateFavorite(item._id); setisFavorite(!isFavorite) }}>
+                                        <i class="fa-solid fa-heart"  ></i>
                                     </div>
-                                    <div className='p-3 h-[150px]  text-justify'>
-                                        <p>{description}</p>
-                                    </div>
-                                    <div className='absolute bottom-0 border-t-2 w-full h-[50px] flex justify-between items-center px-3'>
-                                        <p>{moment(createdAt).format('YYYY-MM-DD')}</p>
-                                        <button className='border-1 py-1 px-3 rounded-md bg-pink-400 text-white hover:bg-black' onClick={() => { setEditCard(!EditCard); settitle(title); setdescription(description); setNoteId(_id) }} >Edit</button>
+                                    <div className={`${item.isFav ? 'text-red-500' : ''}`} onClick={() => { UpdateArcheive(item._id); setisArcheive(!isArcheive) }}>
+                                       <i class="fa-solid fa-box-archive"></i>
                                     </div>
                                 </div>
-                            ))
 
-                        }
-                        <div className={`flex flex-col w-[40%]  mx-auto bg-blue-200 dark:bg-slate-800 shadow-slate-400 ${EditCard ? 'block animate-slide-top overflow-hidden' : 'hidden animate-slide-out delay-1000'} absolute top-24 left-[30%] shadow-xl rounded-sm `}>
+
+                            </div>
+                            <div className='p-3 h-[150px]  text-justify'>
+                                <p>{item.description}</p>
+                            </div>
+                            <div className='absolute bottom-0 border-t-2 w-full h-[50px] flex justify-between items-center px-3'>
+                                <p>{moment(item.createdAt).format('YYYY-MM-DD')}</p>
+                                <div className='flex gap-3'>
+                                    <button className='border-1 py-1 px-3 rounded-md bg-pink-400 text-white hover:bg-black' onClick={() => { setEditCard(!EditCard); settitle(item.title); setdescription(item.description); setNoteId(item._id) }} >Edit</button>
+                                    <button className='border-1 py-1 px-3 rounded-md bg-blue-400 text-white hover:bg-black' onClick={() => { deleteNote(item._id) }} >Delete</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div className={`flex flex-col w-[40%]  mx-auto bg-blue-200 dark:bg-slate-800 shadow-slate-400 ${EditCard ? 'block animate-slide-top overflow-hidden z-10' : 'hidden animate-slide-out delay-1000'} absolute top-24 left-[30%] shadow-xl rounded-sm `}>
                             <p className='text-2xl font-bold px-7 py-2'>Edit Box</p>
                             <div className='my-4 mx-auto w-[90%]' >
                                 <label for="title" className='text-2xl text-semibold'>Title</label>

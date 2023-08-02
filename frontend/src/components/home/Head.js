@@ -13,7 +13,7 @@ const Head = () => {
     const [addNote] = useAddNoteMutation();
 
     const AddNote = () =>{
-       addNote({_id:"1",title: Title, description: Description});
+       addNote({_id:"1",title: Title, isFav:"false", isArcheive:"false", description: Description});
        toast.success('Add Note Success', {
         position: "top-right",
         autoClose: 2000,

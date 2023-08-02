@@ -12,6 +12,14 @@ const noteSchema = mongoose.Schema({
                 type: String,
                 require:true
                },
+               isFav:{
+                type: Boolean,
+                require:true
+               },
+               isArcheive:{
+                type: Boolean,
+                require:true
+               },
                title:{
                 type:String,
                 require:true
