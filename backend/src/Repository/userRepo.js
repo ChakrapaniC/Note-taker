@@ -24,7 +24,7 @@ function addNote(note) {
                                 _id: uuidv4(),
                                 title: note.body.title,
                                 isFav: note.body.isFav,
-                                isArcheive: note.body.isArcheive,
+                                isArchive: note.body.isArchive,
                                 description: note.body.description
                             }
                         }
@@ -45,7 +45,7 @@ function addNote(note) {
                         _id: uuidv4(),
                         title: note.body.title,
                         isFav: note.body.isFav,
-                        isArcheive: note.body.isArcheive,
+                        isArchive: note.body.isArchive,
                         description: note.body.description,
                     }]
                 });
@@ -107,10 +107,10 @@ function updateFav(note) {
     });
 }
 
-function setArcheive(note) {
+function setArchive(note) {
     return new Promise((resolve,reject)=>{
         console.log(note.body)
-        NoteModel.findOneAndUpdate({_id :note.body._id },{ $set: { "Notes.$[elem].isArcheive" : note.body.isArcheive } },
+        NoteModel.findOneAndUpdate({_id :note.body._id },{ $set: { "Notes.$[elem].isArchive" : note.body.isArchive } },
         { arrayFilters: [{ "elem._id": note.params.id }], new: true })
         .then((data)=>{
             resolve(data);
@@ -121,4 +121,4 @@ function setArcheive(note) {
     });
 }
 
-module.exports = { getNotes, addNote, deleteNote, updateNote, updateFav,setArcheive };
+module.exports = { getNotes, addNote, deleteNote, updateNote, updateFav,setArchive };

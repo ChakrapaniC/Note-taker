@@ -4,24 +4,19 @@ import { useDeleteNoteMutation, useGetNotesQuery, useSetArcheiveMutation, useUpd
 import moment from 'moment';
 import { ScaleLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+// import {  useSelector } from 'react-redux';
 const Card = (props) => {
-    const { item } = props
+    const { item, grid } = props
     const [EditCard, setEditCard] = useState(false);
-
-    const [isFavorite, setisFavorite] = useState(false);
-    const [isArcheive, setisArcheive] = useState(false);
     const [title, settitle] = useState('');
     const [description, setdescription] = useState('');
     const [NoteId, setNoteId] = useState();
-    const { data, isLoading } = useGetNotesQuery();
+    const { isLoading } = useGetNotesQuery();
 
-    const arr = ['card1', 'card2'];
-    const addNote = useSelector((state) => state.toggle);
+    // const addNote = useSelector((state) => state.toggle);
 
-    if (addNote) {
-        console.log(addNote)
-    }
+    // if (addNote) {
+    //     console.log(addNote)
 
     const [deleteItem] = useDeleteNoteMutation();
     const [updateItem] = useUpdateNoteMutation();
@@ -49,14 +44,23 @@ const Card = (props) => {
     }
 
     const updateFavorite = (id) => {
-        console.log(isFavorite)
-        updateFav({ _id: "1", isFav: isFavorite, id: id });
+        updateFav({ _id: "1", isFav: !item.isFav, id: id });
+        toast.success('Favorite value Updated', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+
     }
 
     const UpdateArcheive = (id) => {
-       console.log(id)
-        updateArcheive({ _id: "1", isArcheive: isArcheive, id: id }).then((data)=>{
-            toast.success('Note Added In Archeive', {
+        updateArcheive({ _id: "1", isArchive: !item.isArchive, id: id }).then((data) => {
+            toast.success(' Archeive Value Updated', {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -72,21 +76,52 @@ const Card = (props) => {
         return <div className=' flex justify-center items-center'><ScaleLoader color="red" /></div>
     }
 
+    if (grid) {
+        return (
+            <div className={` ${item.archeive ? 'hideen' : 'block'} my-6 md:m-4 w-[350px] h-[250px] relative items-center bg-custom-white dark:bg-slate-800 border-none rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400`}>
+
+                <div className='border-b-2 px-3 h-[50px] flex items-center justify-between text-lg font-semibold'>
+                    <p>{item.title}</p>
+                    <div className='flex gap-3'>
+                        <div className={`${item.isFav ? 'text-red-500' : ''}`} onClick={() => { updateFavorite(item._id); }}>
+                            <i class="fa-solid fa-heart"  ></i>
+                        </div>
+                        <div className={`${item.isArchive ? 'text-green-400' : ''}`} onClick={() => { UpdateArcheive(item._id); }}>
+                            <i class="fa-solid fa-box-archive"></i>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div className='p-3 h-[150px]  text-justify'>
+                    <p>{item.description}</p>
+                </div>
+                <div className='absolute bottom-0 border-t-2 w-full h-[50px] flex justify-between items-center px-3'>
+                    <p>{moment(item.createdAt).format('YYYY-MM-DD')}</p>
+                    <div className='flex gap-3'>
+                        <button className='border-1 py-1 px-3 rounded-md bg-pink-400 text-white hover:bg-black' onClick={() => { setEditCard(!EditCard); settitle(item.title); setdescription(item.description); setNoteId(item._id) }} >Edit</button>
+                        <button className='border-1 py-1 px-3 rounded-md bg-blue-400 text-white hover:bg-black' onClick={() => { deleteNote(item._id) }} >Delete</button>
+                    </div>
+                </div>
+
+            </div>
+        )
+    }
     return (
         <>
-            {
-                true ?
+            {/* {
+                props.grid ?
                     <div className='flex justify-center items-center flex-col  md:flex-row md:justify-normal  animate-pop-up '>
 
 
                         <div className={` ${item.archeive ? 'hideen' : 'block'} my-6  md:m-4 w-[350px] h-[250px]  relative items-center bg-custom-white dark:bg-slate-800 border-none  rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400`}>
                             <div className='border-b-2 px-3 h-[50px] flex items-center justify-between text-lg font-semibold'>
                                 <p>{item.title}</p>
-                                <div className='flex gap-2'>
-                                    <div className={`${item.isFav ? 'text-red-500' : ''}`} onClick={() => { updateFavorite(item._id); setisFavorite(!isFavorite) }}>
+                                <div className='flex gap-3'>
+                                    <div className={`${item.isFav ? 'text-red-500' : ''}`} onClick={() => { updateFavorite(item._id);  }}>
                                         <i class="fa-solid fa-heart"  ></i>
                                     </div>
-                                    <div className={`${item.isFav ? 'text-red-500' : ''}`} onClick={() => { UpdateArcheive(item._id); setisArcheive(!isArcheive) }}>
+                                    <div className={`${item.isArchive ? 'text-green-400' : ''}`} onClick={() => { UpdateArcheive(item._id); }}>
                                        <i class="fa-solid fa-box-archive"></i>
                                     </div>
                                 </div>
@@ -135,10 +170,10 @@ const Card = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {arr.map((item, index) => (
-                                <tr key={index} className='py-8 border-b-2 border-b-slate-300   '>
-                                    <td className='py-4 pl-2' colSpan={2}>{item}</td>
-                                    <td className='py-4  text-center'>22 july</td>
+                           
+                                <tr key={item._id} className='py-8 border-b-2 border-b-slate-300   '>
+                                    <td className='py-4 pl-2' colSpan={2} rowSpan={2}><p className='text-xl font-semibold mb-2'>{item.title}</p>  <p className='text-lg'>{item.description}</p></td>
+                                    <td className='py-4  text-center'>{moment(item.createdAt).format('YYYY-MM-DD')}</td>
                                     <td className='py-4 '>
                                         <div className='flex gap-2 justify-center'>
                                             <ion-icon name="create-outline"></ion-icon>
@@ -146,45 +181,26 @@ const Card = (props) => {
                                         </div>
                                     </td>
                                 </tr>
-                            ))}
                         </tbody>
                     </table>
 
 
-            }
-            {/* <div className='flex flex-wrap justify-center items-center flex-col  md:flex-row md:justify-between p-5'>
-          {
-            arr.map(item => (
-              <div className='m-4 w-[250px] h-[250px] items-center border-yellow-400 border-2'>
-                  <p>{item}</p>
-              </div>
-            ))
-          }
-        </div> */}
+            } */}
+          
+      
+      <tr key={item._id} className='py-8 border-b-2 border-b-slate-300  w-[100%] '>
+                                    <td className='py-4 pl-2'colSpan={2} ><p className='text-xl font-semibold mb-2'>{item.title}</p>  <p className='text-lg'>{item.description}</p></td>
+                                    <td className='py-4  text-center'>{moment(item.createdAt).format('YYYY-MM-DD')}</td>
+                                    <td className='py-4 '>
+                                        <div className='flex gap-3 justify-center'>
+                                            <div  className='px-2 py-1 rounded-[20%] bg-green-300 text-xl'><ion-icon name="create-outline"></ion-icon></div>
+                                            <div className='px-2 py-1 rounded-[20%] bg-pink-300 text-xl'> <ion-icon name="trash-outline"></ion-icon></div>
+                                        </div>
+                                    </td>
+                                </tr>
 
-            {/* <table className='w-[95%] mx-auto table-fixed border-collapse my-2'>
-                <thead>
-                    <tr className=' bg-black text-white'>
-                        <th className=' text-left py-2 pl-2  rounded-tl-lg' colSpan={2}>TITLE</th>
-                        <th className='py-2'>CREATED AT</th>
-                        <th className='py-2 rounded-tr-lg'>ACTIONS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {arr.map((item, index) => (
-                        <tr key={index} className='py-8 border-b-2 border-b-slate-300   '>
-                            <td className='py-4 pl-2' colSpan={2}>{item}</td>
-                            <td className='py-4  text-center'>22 july</td>
-                            <td className='py-4 '>
-                                <div className='flex gap-2 justify-center'>
-                                    <ion-icon name="create-outline"></ion-icon>
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table> */}
+
+
 
         </>
     )

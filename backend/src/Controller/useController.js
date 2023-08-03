@@ -32,12 +32,12 @@ function UpdateFav(req, res) {
     })
 }
 
-function SetArcheive(req, res) {
+function SetArchive(req, res) {
     console.log(req.body)
-    repo.setArcheive(req).then(data => {
+    repo.setArchive(req).then(data => {
         res.status(200).send(data)
     })
 }
 
 
-module.exports = { GetNotes, AddNote, DeleteNote, UpdateNote, UpdateFav,SetArcheive }
+module.exports = { GetNotes, AddNote, DeleteNote, UpdateNote, UpdateFav,SetArchive }

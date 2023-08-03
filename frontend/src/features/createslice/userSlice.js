@@ -5,6 +5,7 @@ export const stateSlice = createSlice({
     initialState:{
         editNote: false,
         addNote:false,
+        sidebar: false,
     },
     reducers:{
         editNoteToggle:(state)=>{
@@ -12,9 +13,13 @@ export const stateSlice = createSlice({
         },
         addNoteToggle:(state)=>{
             state.addNote = !state.addNote
+        },
+        sidebar:(state)=>{
+            state.sidebar = !state.sidebar;
+            console.log(state.sidebar);
         }
 
     }
 });
  
-export const {editNoteToggle, addNoteToggle} = stateSlice.actions;
+export const {editNoteToggle, addNoteToggle, sidebar} = stateSlice.actions;

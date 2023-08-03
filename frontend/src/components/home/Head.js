@@ -13,7 +13,7 @@ const Head = () => {
     const [addNote] = useAddNoteMutation();
 
     const AddNote = () =>{
-       addNote({_id:"1",title: Title, isFav:"false", isArcheive:"false", description: Description});
+       addNote({_id:"1",title: Title, isFav:"false", isArchive:"false", description: Description});
        toast.success('Add Note Success', {
         position: "top-right",
         autoClose: 2000,
@@ -30,7 +30,7 @@ const Head = () => {
     }
     return (
         <>
-            <div className='w-[95%] mx-auto p-6 mt-2 md:mt-10 bg-white  dark:bg-slate-900 dark:text-white rounded-lg relative'>
+            <div className='w-[95%] mx-auto p-6 mt-8 md:mt-10 bg-white  dark:bg-slate-900 dark:text-white rounded-lg relative'>
 
                 <div className={`mr-2 md:ml-5 hover:font-semibold ${Note ? 'h-[220px] animate-slide-down' : 'h-[30px] overflow-hidden animate-slide-up' } `} >
                     <button href="/" className='flex gap-4 items-center text-lg ' onClick={() => setNote(!Note)}>

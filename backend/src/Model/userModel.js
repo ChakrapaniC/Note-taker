@@ -16,7 +16,7 @@ const noteSchema = mongoose.Schema({
                 type: Boolean,
                 require:true
                },
-               isArcheive:{
+               isArchive:{
                 type: Boolean,
                 require:true
                },

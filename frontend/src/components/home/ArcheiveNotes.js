@@ -1,18 +1,30 @@
 import { useGetNotesQuery } from '../../features/api/apiSlice';
 import Card from './Card';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ScaleLoader } from 'react-spinners';
 
 const ArcheiveNotes = () => {
-    const { data } = useGetNotesQuery();
+    const { data ,isLoading} = useGetNotesQuery();
     const [grid, setgrid] = useState(true);
-    console.log(data);
-    const FavoriteCard = (item) => {
-        if (item.archeive) {
-            console.log(item)
-            return <Card item={item} />
-        }
-        return
+    const [result, setresult] = useState([]);
 
+    useEffect(() => {
+      const temp = data!==undefined && data[0]?.Notes.filter((x)=> x.isArchive === true);
+        setresult(temp);
+        console.log(temp);
+    }, [data])
+    
+    const ArchiveCard = (item) =>{
+       if(item.isArchive){
+        return <Card item={item} key={item._id}/>
+       } 
+       return
+    }
+
+    if(isLoading){
+       
+            return <div className=' flex justify-center items-center'><ScaleLoader color="red" /></div>
+    
     }
     return (
         <div className=' md:-[80%] w-full '>
@@ -23,7 +35,7 @@ const ArcheiveNotes = () => {
                 </div>
                 <div className='flex flex-wrap'>
                     {
-                        data !== undefined && data[0].Notes?.map((item) => FavoriteCard(item))
+                        result !== undefined && Array.isArray(result) && result?.map((item) => ArchiveCard(item))
                     }
                 </div>
             </div>

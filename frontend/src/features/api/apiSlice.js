@@ -47,7 +47,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
         }),
         setArcheive: builder.mutation({
             query: (note)=>({
-                url:`/updateArcheive/${note.id}`,
+                url:`/updateArchive/${note.id}`,
                 method:"PUT",
                 body: note,
                

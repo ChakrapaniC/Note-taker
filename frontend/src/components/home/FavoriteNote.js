@@ -24,7 +24,7 @@ const FavoriteNote = () => {
 
     }
     return (
-        <div className=' md:-[80%] w-full '>
+        <div className=' w-full '>
             <div className='w-[95%]  h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10'>
                 <div className='flex justify-between items-center px-6 py-4 text-2xl'>
                     <p className=' dark:text-white'>Favorite Notes :-</p>
@@ -32,7 +32,7 @@ const FavoriteNote = () => {
                 </div>
                 <div className='flex flex-wrap'>
                     {
-                      Favorite !== undefined && Favorite[0]?.Notes.map((item) => FavoriteCard(item))
+                      Favorite !== undefined && Array.isArray(Favorite) && Favorite?.map((item) => FavoriteCard(item))
                     }
                 </div>
             </div>

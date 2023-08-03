@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../image/logo.png';
 import moon from '../image/moon.png';
 import sun from '../image/sun.png';
 import menu from '../image/menu.png';
-import close from '../image/close.png'
+import close from '../image/close.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { sidebar } from '../../features/createslice/userSlice';
 const Navbar = (props) => {
   const [dark, setdark] = useState(false);
-  const [isOpen, setisOpen] = useState(false);
-
+  
+  const value = useSelector((state)=> state.toggle.sidebar);
+  const dispatch = useDispatch();
+  
   function toggleMenu() {
-    setisOpen(!isOpen);
+    dispatch(sidebar());
   }
   return (
     <>
@@ -29,20 +33,14 @@ const Navbar = (props) => {
 
           <button className='mr-9 font-semibold text-lg '>
             <div className='items-center md:hidden ' onClick={toggleMenu}>
-              <img className='w-8 h-8' src={isOpen ? close : menu} alt="" />
+              <img className='w-8 h-8' src={value ? close : menu} alt="" />
             </div>
           </button>
         </div>
 
        
       </nav>
-      <div className={`md:hidden w-full bg-white p-4 dark:bg-slate-700 h-auto ${isOpen ? 'block' : 'hidden'}  `}>
-          <ul className='flex flex-col items-center '>
-            <li className='mx-4 text-lg font-semibold'>Home</li>
-            <li className='mx-4 text-lg font-semibold'>About</li>
-            <li className='mx-4 text-lg font-semibold'>Contact</li>
-          </ul>
-        </div>
+      
     </>
   )
 }
