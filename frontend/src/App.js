@@ -11,6 +11,7 @@ import Sidebar from './components/home/Sidebar';
 import ArcheiveNotes from './components/home/ArcheiveNotes';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import Loader from './components/loader/Loader';
+import Login from './components/userAuth/login/Login';
 
 function App() {
   const [darkMode, setdarkMode] = useState(false);
@@ -26,7 +27,7 @@ function App() {
     }, 1100);
   }, [])
 
-  const sidebarOpen = useSelector((state) => state.toggle.sidebar);
+ 
   return (
     <>
       <div className={`${darkMode ? 'dark' : ''} `}>
@@ -36,17 +37,17 @@ function App() {
               :
               <>
                 <Navbar toggleMode={toggleMode} />
+               
                 <ToastContainer />
-                <div className='w-full flex'>
-                  <div className={`  md:w-[20%] ${sidebarOpen ? 'w-[60%] z-[50]  animate-slide-in' : 'w-0 z-0 overflow-hidden animate-slide-out delay-300'} md:animate-none md:z-0 md:block fixed z-[50] top-0 left-0 md:static  md:shadow-none shadow-md  `}>
-                    <Sidebar />
-                  </div>
+              
+                 
                   <Routes>
+                    <Route path='/login' element={<Login/>} />
                     <Route path='/' element={<Home />} />
                     <Route path='/favoriteNote' element={<FavoriteNote />} />
                     <Route path='/ArchiveNote' element={<ArcheiveNotes />} />
                   </Routes>
-                </div>
+    
               </>
           }
         </div>
