@@ -7,6 +7,7 @@ export const stateSlice = createSlice({
         addNote:false,
         sidebar: false,
         grid:true,
+        login:true,
     },
     reducers:{
         editNoteToggle:(state)=>{
@@ -21,9 +22,12 @@ export const stateSlice = createSlice({
         },
         gridToggle:(state)=>{
             state.grid = !state.grid
+        },
+        loginToggle:(state,action)=>{
+            state.login = action.payload
         }
 
     }
 });
  
-export const {editNoteToggle, addNoteToggle, sidebar , gridToggle} = stateSlice.actions;
+export const {editNoteToggle, addNoteToggle, sidebar , gridToggle , loginToggle} = stateSlice.actions;

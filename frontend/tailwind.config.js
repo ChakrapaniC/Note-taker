@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode:'class',
     content: [
@@ -7,8 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        'custom-white': '#f3f4fd'
+        'custom-white': '#f3f4fd',
+        'gradient': `-webkit-linear-gradient(to right, #ffe259, #ffa751)`
       },
+    
       keyframes: {
         slideIn: {
           'from': {
