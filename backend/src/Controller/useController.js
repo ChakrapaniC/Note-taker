@@ -1,4 +1,4 @@
-const repo = require('../Repository/userRepo');
+const repo = require('../Repository/noteRepo');
 
 function GetNotes(req, res) {
     repo.getNotes(req).then(data => {

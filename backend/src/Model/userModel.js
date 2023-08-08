@@ -1,40 +1,25 @@
 const mongoose = require('mongoose');
-const noteSchema = mongoose.Schema({
-    _id: {
+const userSchema = mongoose.Schema({
+    _id:{
         type: String,
+        require: true,
+    },
+    firstname:{
+        type: String,
+        require:false
+    },
+    lastname:{
+        type: String,
+        require: false
+    },
+    email:{
+        type : String,
         require: true
     },
-    Notes: [
-        {
-            type: new mongoose.Schema({
+    password:{
+        type: String,
+        require : true
+    }
+},{timestamps: true});
 
-               _id:{
-                type: String,
-                require:true
-               },
-               isFav:{
-                type: Boolean,
-                require:true
-               },
-               isArchive:{
-                type: Boolean,
-                require:true
-               },
-               title:{
-                type:String,
-                require:true
-               },
-               description:{
-                type: String,
-                require:true
-               }
-            }
-            , { timestamps: true }
-            )
-        }
-    ]
-
-}, { timestamps: true });
-
-
-module.exports = mongoose.model('NoteModel', noteSchema, 'Notes');
+module.exports = mongoose.model('UserModel', userSchema,'Users');
