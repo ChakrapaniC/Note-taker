@@ -2,23 +2,26 @@ const userModel = require('../Model/userModel');
 const bcrypt = require('bcrypt');
 const jwt  = require('jsonwebtoken');
 const LocalStrategy = require('passport-local');
-const Secret_Key = 'this is my secret key'
+const SECRET_KEY = 'this is my authenticate key';
 
 function PassportAuth(){
-    return new LocalStrategy({usernamefield:'email',passwordfield:'password'}, function(username,password,done){
-        userModel.findOne({email : username},(err, user)=>{
-            if(err){
-                return done(err);
-            }
-            if(!user){
-                return done(null,false,{message:"Invalid Email"})
-            }
-            if(!bcrypt.compareSync(password, user.password)){
-                return done(null, false, {message:"Invalid Password"})
-            }
-            return done(null, user);
-        })
-    })
+    console.log("it is working")
+    return new LocalStrategy({ usernameField: 'email', passwordField: "password" }, async function (username, password, done) {
+        await userModel.findOne({ email: username })
+            .then((user) => {
+                if (!user) {
+                    console.log('err')
+                    return done(null , false,{ status: 409, message: "Invalid email id" })
+                } else if (bcrypt.compareSync(password, user.password)) {
+                    return done(null, user);
+                } else {
+                    return done(null, false, { status: 409, message: "Invalid password" })
+                }
+            }).catch((err) => {
+                return done(err)
+            })
+
+    });
 }
 
 function VerifyToken(token){

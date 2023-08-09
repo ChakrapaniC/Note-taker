@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginToggle } from '../../../features/createslice/userSlice';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 const Register = (props) => {
     const isActive = useSelector((state) => state.toggle.login);
@@ -17,7 +18,26 @@ const Register = (props) => {
             email: '',
         },
         onSubmit: values => {
-            console.log(values)
+            // 
+            fetch('http://localhost:8000/api/v1/signup',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(values)
+            }).then(res => res.json()).then(data =>{
+                console.log(data);
+                toast.success('User Signup Successfylly', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            })
         },
         validationSchema: Yup.object().shape({
             firstname: Yup.string()

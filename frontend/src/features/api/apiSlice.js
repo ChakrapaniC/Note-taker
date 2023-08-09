@@ -53,8 +53,15 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
                
             }),
             invalidatesTags:["Notes"],
+        }),
+        login: builder.mutation({
+            query:(data)=>({
+                url:`/login`,
+                method:"POST",
+                body:data
+            })
         })
     })
 })
 
-export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation} = notesApi;
+export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation ,useLoginMutation} = notesApi;

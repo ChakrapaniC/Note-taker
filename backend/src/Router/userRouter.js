@@ -1,9 +1,14 @@
 const express = require('express');
 const {GetNotes,AddNote, DeleteNote, UpdateNote, UpdateFav,SetArchive} = require('../Controller/useController');
-const {registerUser} = require('../Controller/userController')
+const {registerUser, loginUser, authenticated} = require('../Controller/userController');
+const {GenerateToken} = require('../Auth/userAuth')
+const passport = require('passport');
+const { LoginUser } = require('../Repository/userRepo');
 const router = express.Router();
 //User Router
-router.post('/signup', registerUser)
+router.post('/signup', registerUser);
+router.post('/login',passport.authenticate('local'), loginUser);
+router.post('/authentication',authenticated);
 //Notes router
 router.get('/notes',GetNotes);
 router.post('/add',AddNote);

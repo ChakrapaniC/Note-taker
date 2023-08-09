@@ -1,6 +1,6 @@
 import React from 'react';
 import pen from '../image/edit.png';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import { useAddNoteMutation } from '../../features/api/apiSlice';
 import { toast } from 'react-toastify';
 
@@ -27,7 +27,13 @@ const Head = () => {
        setNote(false);
        setTitle('');
        setDescription('');
-    }
+    };
+    useEffect(() => {
+      const token = localStorage.getItem('jwtToken');
+      console.log(token)
+    
+    }, [])
+    
     return (
         <>
             <div className='w-[95%] mx-auto p-6 mt-8 md:mt-10 bg-white  dark:bg-slate-900 dark:text-white rounded-lg relative'>

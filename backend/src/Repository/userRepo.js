@@ -1,6 +1,7 @@
 const UserModel = require('../Model/userModel');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
+const { GenerateToken, VerifyToken } = require('../Auth/userAuth');
 
 function RegisterUser(req, res){
     console.log(req.body)
@@ -28,23 +29,43 @@ function RegisterUser(req, res){
 })
 }
 
-function LoginUser(req,res){
+function LoginUser(req, res){
     return new Promise((resolve,reject)=>{
-        if(!req.session.passport){
-            reject({status:401,message:"Unauthrized"});
-            return
+        if (!req.session.passport ) {
+            reject({ status: 401, message: "Unauthorized" });
+            return;
         }
 
-        const token = req.session.passport;
-        if(!token){
-          reject({status:500,message:"Token generated failed"});
-          return 
+        const userId = req.session.passport;
+        if (!userId) {
+            reject({ status: 500, message: "Token generation failed" });
+            return;
         }
 
-        resolve({token: token})
-    }).catch((err)=>{
-        throw err;
+        // GenerateToken needs to be implemented and return a valid token
+        const token = GenerateToken(userId);
+        if (!token) {
+            reject({ status: 500, message: "Token generation failed" });
+            return;
+        }
+
+        resolve({ token })
     })
 }
 
-module.exports = {RegisterUser,LoginUser};
+function IsAuthenticated(req,res){
+    return new Promise((resolve,reject)=>{
+        if(!res.headers.authorization){
+            reject({status: 401, message:"Token Invalid"});
+            return 
+        }
+
+        const header = req.headers.authorization;
+        if(header){
+            resolve({isAuthenticated: VerifyToken(header)})
+        }
+    })
+    
+}
+
+module.exports = {RegisterUser, LoginUser, IsAuthenticated};
