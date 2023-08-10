@@ -1,8 +1,26 @@
 import React from 'react';
 import avatar from '../image/avatar.png'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Sidebar = (props) => {
+    const navigate = useNavigate();
+    const deleteToken = () =>{
+        localStorage.removeItem('jwtToken');
+        navigate('/');
+        toast.success('Logged Out seccessfully', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+
+    }
     return (
         <>
           
@@ -26,7 +44,7 @@ const Sidebar = (props) => {
                 </div>
                 <div className='my-4'>
                     <div className='flex gap-3 justify-center items-center  py-3 my-4 text-2xl border-none bg-blue-400 hover:bg-blue-500 rounded-lg mx-auto w-[180px] '>
-                        <button className=''>Logout </button>
+                        <button className='' onClick={deleteToken}>Logout </button>
                         <ion-icon name="log-out-outline"  ></ion-icon>
                     </div>
                     <div className='flex gap-3 justify-center items-center  py-3 my-4 text-2xl border-none bg-red-300 hover:bg-red-400  rounded-lg mx-auto w-[180px] '>

@@ -14,7 +14,7 @@ const Login = () => {
     // const [isActive, setisActive] = useState(false);
     const isActive = useSelector((state) => state.toggle.login);
     const dispatch = useDispatch();
-    const [signup] = useLoginMutation();
+    const [login] = useLoginMutation();
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -24,7 +24,7 @@ const Login = () => {
         },
         onSubmit: values => {
             try {
-                signup(values).then((data) => {
+                login(values).then((data) => {
                     if (data?.data !== undefined) {
                         console.log({ data });
                         localStorage.setItem('jwtToken', data.data.token);

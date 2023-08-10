@@ -1,9 +1,10 @@
 const NoteModel = require('../Model/noteModel');
 const { v4: uuidv4 } = require('uuid');
 
-function getNotes() {
+function getNotes(req,res) {
+    // console.log(req.query._id);
     return new Promise((resolve, reject) => {
-        NoteModel.find().then((data) => {
+        NoteModel.findById({_id: req.params.id}).then((data) => {
             resolve(data)
         }).catch(err => {
             reject(err)
@@ -12,6 +13,7 @@ function getNotes() {
 }
 
 function addNote(note) {
+    console.log(note.body)
     return new Promise((resolve, reject) => {
         NoteModel.findOne({ _id: note.body._id }).then((data) => {
             console.log(note.body._id);

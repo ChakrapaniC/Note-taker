@@ -7,17 +7,18 @@ import { gridToggle } from "../../features/createslice/userSlice";
 import Sidebar from "./Sidebar";
 
 const FavoriteNote = () => {
-    const { data } = useGetNotesQuery();
+  
     const [Favorite, setFavorite] = useState([]);
-    console.log(data);
-
+   
     const grid = useSelector((state) => state.toggle.grid);
     const sidebarOpen = useSelector((state) => state.toggle.sidebar);
     const dispatch = useDispatch();
+    const userid = useSelector((state)=> state.toggle.userid)
+    const { data } = useGetNotesQuery(userid);
+
     console.log(grid);
     useEffect(() => {
-        const result =
-            data !== undefined && data[0]?.Notes.filter((x) => x.isFav === true);
+        const result = data !== undefined && data?.Notes.filter((x) => x.isFav === true);
         setFavorite(result);
         console.log(result);
     }, [data, grid]);

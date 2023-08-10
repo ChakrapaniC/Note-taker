@@ -8,14 +8,14 @@ import Sidebar from "./Sidebar";
 
 const Home = (props) => {
   const [Result, setResult] = useState([]);
-  const { data } = useGetNotesQuery();
   const grid = useSelector((state) => state.toggle.grid);
   const dispatch = useDispatch();
   const sidebarOpen = useSelector((state) => state.toggle.sidebar);
+  const userid = useSelector((state)=> state.toggle.userid);
+  const { data } = useGetNotesQuery(userid);
   console.log(grid);
   useEffect(() => {
-    const temp =
-      data !== undefined && data[0].Notes.filter((x) => x.isArchive === false);
+    const temp = data !== undefined && data?.Notes.filter((x) => x.isArchive === false);
     setResult(temp);
   }, [data]);
 

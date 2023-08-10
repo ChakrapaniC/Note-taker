@@ -19,6 +19,7 @@ const Card = (props) => {
     // if (addNote) {
     //     console.log(addNote)
     const grid = useSelector((state)=> state.toggle.grid);
+    const userid = useSelector((state)=> state.toggle.userid)
     console.log(grid)
     const [deleteItem] = useDeleteNoteMutation();
     const [updateItem] = useUpdateNoteMutation();
@@ -26,7 +27,7 @@ const Card = (props) => {
     const [updateArcheive] = useSetArcheiveMutation();
 
     const deleteNote = (id) => {
-        deleteItem({ "_id": "1", "NoteId": id });
+        deleteItem({ "_id": userid, "NoteId": id });
     }
     const updateNote = () => {
         updateItem({ _id: "1", title: title, description: description, id: NoteId });
@@ -46,7 +47,7 @@ const Card = (props) => {
     }
 
     const updateFavorite = (id) => {
-        updateFav({ _id: "1", isFav: !item.isFav, id: id });
+        updateFav({ _id: userid, isFav: !item.isFav, id: id });
         toast.success('Favorite value Updated', {
             position: "top-right",
             autoClose: 2000,
@@ -61,7 +62,7 @@ const Card = (props) => {
     }
 
     const UpdateArcheive = (id) => {
-        updateArcheive({ _id: "1", isArchive: !item.isArchive, id: id }).then((data) => {
+        updateArcheive({ _id: userid, isArchive: !item.isArchive, id: id }).then((data) => {
             toast.success(' Archeive Value Updated', {
                 position: "top-right",
                 autoClose: 2000,
@@ -75,7 +76,7 @@ const Card = (props) => {
         });
     }
     if (isLoading) {
-        return <div className=' flex justify-center items-center'><ScaleLoader color="red" /></div>
+        return <div className=' flex justify-center items-center h-[50px]'><ScaleLoader color="red" /></div>
     }
 
     

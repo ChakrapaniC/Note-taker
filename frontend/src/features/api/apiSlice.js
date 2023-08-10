@@ -6,11 +6,17 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
     tagTypes: ['Notes'],
     endpoints: (builder) =>({
         getNotes: builder.query({
-           query: ()=> `/notes`,
-           transformResponse:(response)=>{
-            response.reverse();
-            return response
-           },
+           query: (id)=> `/notes/${id}`,
+           transformResponse: (response) => {
+            if (Array.isArray(response)) {
+              response.reverse();
+              return response;
+            } else {
+              // Handle the case where response is not an array
+              console.error('API response is not an array:', response);
+              return response;
+            }
+          },
            providesTags: ['Notes']
         }),
         addNote: builder.mutation({
@@ -60,8 +66,28 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
                 method:"POST",
                 body:data
             })
+        }),
+        tokenVerify: builder.mutation({
+            query:(token)=>({
+                url: '/authentication',
+                method: 'POST', // Specify the HTTP method
+                headers: {
+                    Authorization: `${token}`, // Include the token in the Authorization header
+                    'Content-Type': 'application/json', // Set the content type if needed
+                },
+            }),
+        }),
+        getUser: builder.mutation({
+            query:(token)=>({
+                url:'/userProfile',
+                method:"GET",
+                headers: {
+                    Authorization: `${token}`, // Include the token in the Authorization header
+                    'Content-Type': 'application/json', // Set the content type if needed
+                },
+            })
         })
     })
 })
 
-export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation ,useLoginMutation} = notesApi;
+export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation ,useLoginMutation, useTokenVerifyMutation,useGetUserMutation } = notesApi;

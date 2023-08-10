@@ -1,6 +1,6 @@
 const express = require('express');
 const {GetNotes,AddNote, DeleteNote, UpdateNote, UpdateFav,SetArchive} = require('../Controller/useController');
-const {registerUser, loginUser, authenticated} = require('../Controller/userController');
+const {registerUser, loginUser, authenticated, getUsers, VerifyTokenMiddleware} = require('../Controller/userController');
 const {GenerateToken} = require('../Auth/userAuth')
 const passport = require('passport');
 const { LoginUser } = require('../Repository/userRepo');
@@ -9,8 +9,9 @@ const router = express.Router();
 router.post('/signup', registerUser);
 router.post('/login',passport.authenticate('local'), loginUser);
 router.post('/authentication',authenticated);
+router.get('/userProfile',VerifyTokenMiddleware ,getUsers);
 //Notes router
-router.get('/notes',GetNotes);
+router.get('/notes/:id',GetNotes);
 router.post('/add',AddNote);
 router.delete('/delete/:id',DeleteNote);
 router.put('/update/:id', UpdateNote);

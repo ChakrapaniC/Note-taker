@@ -1,19 +1,26 @@
 import React from 'react';
 import pen from '../image/edit.png';
 import { useState , useEffect} from 'react';
-import { useAddNoteMutation } from '../../features/api/apiSlice';
+import { useAddNoteMutation, useGetUserMutation , useTokenVerifyMutation } from '../../features/api/apiSlice';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { userIdState } from '../../features/createslice/userSlice';
 
 const Head = () => {
     const [Note, setNote] = useState(false);
     const [Title, setTitle] = useState('');
     const [Description, setDescription] = useState('');
+    // const [UserId, setUserId] = useState('');
     
 
     const [addNote] = useAddNoteMutation();
+    // const [verifyToken] = useTokenVerifyMutation();
+    const [getUser] = useGetUserMutation();
+    const dispatch = useDispatch();
+    const UserId = useSelector((state)=> state.toggle.userid);
 
     const AddNote = () =>{
-       addNote({_id:"1",title: Title, isFav:"false", isArchive:"false", description: Description});
+       addNote({_id: UserId , title: Title, isFav:"false", isArchive:"false", description: Description});
        toast.success('Add Note Success', {
         position: "top-right",
         autoClose: 2000,
@@ -28,9 +35,25 @@ const Head = () => {
        setTitle('');
        setDescription('');
     };
+
     useEffect(() => {
       const token = localStorage.getItem('jwtToken');
-      console.log(token)
+      console.log(token);
+    //   verifyToken(token).then(data =>{
+    //     console.log(data);
+    //     console.log('token verify');
+    //   }).catch(err =>{
+    //     console.log(err);
+    //   })
+       
+      getUser(token).then(data =>{
+        console.log(data.data._id);
+        dispatch(userIdState(data.data._id));
+      }).catch(err =>{
+        console.log(err);
+      });
+
+      
     
     }, [])
     

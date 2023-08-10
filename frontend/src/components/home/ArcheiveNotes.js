@@ -7,16 +7,18 @@ import { gridToggle } from "../../features/createslice/userSlice";
 import Sidebar from "./Sidebar";
 
 const ArcheiveNotes = () => {
-    const { data, isLoading } = useGetNotesQuery();
     const [result, setresult] = useState([]);
 
     const grid = useSelector((state) => state.toggle.grid);
     const sidebarOpen = useSelector((state) => state.toggle.sidebar);
     const dispatch = useDispatch();
 
+    const userid = useSelector((state)=> state.toggle.userid)
+    const { data,isLoading } = useGetNotesQuery(userid);
+
     useEffect(() => {
         const temp =
-            data !== undefined && data[0]?.Notes.filter((x) => x.isArchive === true);
+            data !== undefined && data?.Notes.filter((x) => x.isArchive === true);
         setresult(temp);
         console.log(temp);
     }, [data]);
