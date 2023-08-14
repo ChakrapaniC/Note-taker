@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
  export const notesApi = createApi({
     reducerPath:"notesApi",
-    baseQuery: fetchBaseQuery({baseUrl: "http://localhost:8000/api/v1"}),
+    baseQuery: fetchBaseQuery({baseUrl: "https://backendnotetaker.vercel.app/api/v1"}),
     tagTypes: ['Notes'],
     endpoints: (builder) =>({
         getNotes: builder.query({
