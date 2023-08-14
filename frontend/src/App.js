@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import Home from './components/home/Home';
 import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-import FavoriteNote from './components/home/FavoriteNote';
 import { Routes, Route } from 'react-router-dom';
-import Sidebar from './components/home/Sidebar';
-import ArcheiveNotes from './components/home/ArcheiveNotes';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
 import Loader from './components/loader/Loader';
-import Login from './components/userAuth/login/Login';
+import TrashNote from './components/trash/DeleteNote';
+import { ScaleLoader } from 'react-spinners';
+
+const Home = React.lazy(()=> import('./components/home/Home'))
+const FavoriteNote = React.lazy(()=> import('./components/home/FavoriteNote'))
+const ArcheiveNotes = React.lazy(()=> import('./components/home/ArcheiveNotes'))
+const Login = React.lazy(()=> import('./components/userAuth/login/Login'))
 
 function App() {
   const [darkMode, setdarkMode] = useState(false);
@@ -40,14 +41,15 @@ function App() {
                
                 <ToastContainer />
               
-                 
+                <Suspense fallback={  <div className=' flex justify-center items-center h-screen'><ScaleLoader color="red" /></div>}>
                   <Routes>
                     <Route path='/' element={<Login/>} />
                     <Route path='/home' element={<Home />} />
                     <Route path='/favoriteNote' element={<FavoriteNote />} />
                     <Route path='/ArchiveNote' element={<ArcheiveNotes />} />
+                    <Route path='/TrashNote' element={<TrashNote/>}/>
                   </Routes>
-    
+                </Suspense> 
               </>
           }
         </div>

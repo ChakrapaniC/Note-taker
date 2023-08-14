@@ -39,5 +39,11 @@ function SetArchive(req, res) {
     })
 }
 
+function UpdateTrash(req, res) {
+    console.log(req.body)
+    repo.updateTrash(req).then(data => {
+        res.status(200).send(data)
+    })
+}
 
-module.exports = { GetNotes, AddNote, DeleteNote, UpdateNote, UpdateFav,SetArchive }
+module.exports = { GetNotes, AddNote, DeleteNote, UpdateNote, UpdateFav,SetArchive, UpdateTrash }

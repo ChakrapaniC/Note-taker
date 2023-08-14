@@ -14,16 +14,24 @@ function RegisterUser(req, res) {
                 reject({ status: 409, message: 'user with specific email already exists' });
                 // console.log("it reaches if part")
             } else {
-                // console.log("it reaches else part")
+                console.log("it reaches else part")
                 let newUser = new UserModel({
                     _id: uuidv4(),
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     email: req.body.email,
                     password: bcrypt.hashSync(req.body.password, 10),
-                })
+                });
                 newUser.save().then((data) => {
-                    resolve({ status: 200, message: 'user regster successfully', data: data })
+                const token = GenerateToken({user:data._id});
+                if(token){
+                    console.log(token,'it reaches resolve part')
+                    resolve({ status: 200, message: 'user regster successfully', data:{data,token}})
+                }else{
+                    console.log('token genearted failed')
+                }
+                 
+            
                 }).catch((err) => {
                     reject(err)
                 })

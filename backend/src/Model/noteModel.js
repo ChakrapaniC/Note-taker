@@ -20,6 +20,10 @@ const noteSchema = mongoose.Schema({
                 type: Boolean,
                 require:true
                },
+               isTrash:{
+                type: Boolean,
+                require: true,
+               },
                title:{
                 type:String,
                 require:true

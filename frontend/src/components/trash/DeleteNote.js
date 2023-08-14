@@ -1,31 +1,27 @@
-import { useDispatch, useSelector } from "react-redux";
-import Card from "./Card";
+import React from 'react'
+import NotesData from '../HOC/NotesData';
+import Card from '../home/Card';
 import { useState, useEffect } from "react";
-import { ScaleLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
 import { gridToggle } from "../../features/createslice/userSlice";
-import Sidebar from "./Sidebar";
-import NotesData from "../HOC/NotesData";
+import Sidebar from "../home/Sidebar";
 
-const ArcheiveNotes = (props) => {
-    const { data, isLoading } = props;
-    const [result, setresult] = useState([]);
+const DeleteNote = (props) => {
+    const { data } = props;
+    const [Trash, setTrash] = useState([]);
 
     const grid = useSelector((state) => state.toggle.grid);
     const sidebarOpen = useSelector((state) => state.toggle.sidebar);
     const dispatch = useDispatch();
 
-    // const userid = useSelector((state)=> state.toggle.userid)
-    // const { data,isLoading } = useGetNotesQuery(userid);
-
+    console.log(grid);
     useEffect(() => {
-        const temp =
-            data !== undefined && data?.Notes.filter((x) => x.isArchive === true && x.isTrash === false);
-        setresult(temp);
-        console.log(temp);
+        const result = data !== undefined && data?.Notes.filter((x) => x.isTrash === true);
+        setTrash(result);
     }, [data]);
 
-    const ArchiveCard = (item) => {
-        if (item.isArchive) {
+    const TrashCard = (item) => {
+        if (item.isTrash) {
             if (grid === true) {
                 return <Card item={item} key={item._id} />;
             } else {
@@ -49,18 +45,10 @@ const ArcheiveNotes = (props) => {
         }
         return;
     };
-
-    if (isLoading) {
-        return (
-            <div className=" flex justify-center items-center">
-                <ScaleLoader color="red" />
-            </div>
-        );
-    }
     return (
-        <div className="w-full flex min-h-screen md:h-auto">
+        <div className="w-full flex min-h-screen md:h-auto ">
             <div
-                className={`  ${result.length!==0 ? 'md:w-[25%]' : 'md:w-[20%]'} ${sidebarOpen
+                className={`  md:w-[20%] ${sidebarOpen
                     ? "w-[60%] z-[50]  animate-slide-in"
                     : "w-0 z-0 overflow-hidden animate-slide-out delay-300"
                     } md:animate-none md:z-0 md:block fixed z-[50] top-0 left-0 md:static  md:shadow-none shadow-md  `}
@@ -68,11 +56,11 @@ const ArcheiveNotes = (props) => {
                 <Sidebar />
             </div>
             {
-              result !== undefined && result?.length!==0 ?
-                <div className=" md:-[75%] w-full ">
-                    <div className="w-[95%]  h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10">
-                        <div className="flex justify-between items-center px-6 py-4 text-2xl">
-                            <p className=" dark:text-white">Archeive Notes :-</p>
+              Trash !== undefined && Trash?.length !==0 ?
+                <div className="md:w-[80%] w-full">
+                    <div className="w-[95%]  h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">
+                        <div className=" flex justify-between items-center px-6 py-4 text-2xl">
+                            <p className=" dark:text-white">Trash Notes :-</p>
                             {grid ? (
                                 <ion-icon
                                     name="grid-outline"
@@ -83,20 +71,22 @@ const ArcheiveNotes = (props) => {
                             ) : (
                                 <ion-icon
                                     name="apps-outline"
-                                    onClick={() => dispatch(gridToggle())}
+                                    onClick={() => {
+                                        dispatch(gridToggle());
+                                    }}
                                 ></ion-icon>
                             )}
                         </div>
                         <div className="flex flex-wrap">
-                            {result !== undefined &&
-                                Array.isArray(result) &&
-                                result?.map((item) => ArchiveCard(item))}
+                            {Trash !== undefined &&
+                                Array.isArray(Trash) &&
+                                Trash?.map((item) => TrashCard(item))}
                         </div>
                     </div>
-                </div> : <div className=" md:w-[80%] w-full"><div className="w-[95%] flex items-center justify-center text-2xl font-semibold h-[250px] mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">Archive Component is Empty :-)</div></div>
+                </div> : <div className=" md:w-[80%] "><div className="w-[95%] flex items-center justify-center text-2xl font-semibold h-[250px] mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">Trash Component is Empty :-)</div></div>
             }
         </div>
-    );
-};
+    )
+}
 
-export default NotesData(ArcheiveNotes);
+export default NotesData(DeleteNote)

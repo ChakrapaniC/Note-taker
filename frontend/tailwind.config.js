@@ -9,7 +9,9 @@ module.exports = {
     extend: {
       colors:{
         'custom-white': '#f3f4fd',
-        'gradient': `-webkit-linear-gradient(to right, #ffe259, #ffa751)`
+        'background': '-webkit-linear-gradient(#cc0066,#66ccff)',
+        '-webkit-background-clip': 'text',
+        '-webkit-text-fill-color': 'transparent'
       },
     
       keyframes: {
@@ -62,7 +64,24 @@ module.exports = {
           '100%': {
             transform: 'translateY(0%)',
           }
+        },
+        slideRight:{
+          '0%' :{
+            transform : 'translateX(-20%)',
+          },
+          '100%':{
+            transform: 'translateX(0%)'
+          }
+        },
+        loader:{
+            '0%' :{
+              transform : 'translateX(20%)',
+            },
+            '100%':{
+              transform: 'translateX(-100%)'
+            }
         }
+
       },
       animation: {
         'slide-in': 'slideIn 0.50s ease-in-out',
@@ -70,7 +89,9 @@ module.exports = {
         'pop-up' : 'popUp 0.70s ease-out',
         'slide-down':'slideDown 0.30s ease',
         'slide-up':'slideUp 0.30s ease',
-        'slide-top':'slideTop 0.50s ease'
+        'slide-top':'slideTop 0.50s ease',
+        'slide-right': 'slideRight 1s linear',
+        'slide-loader': 'loader 0.80s linear'
       },
     },
   },

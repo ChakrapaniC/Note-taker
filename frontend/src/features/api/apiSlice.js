@@ -9,7 +9,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
            query: (id)=> `/notes/${id}`,
            transformResponse: (response) => {
             if (Array.isArray(response)) {
-              response.reverse();
+              response.Notes.reverse();
               return response;
             } else {
               // Handle the case where response is not an array
@@ -60,11 +60,20 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
             }),
             invalidatesTags:["Notes"],
         }),
+        updateTrash: builder.mutation({
+            query: (note)=>({
+                url:`/updateTrash/${note.id}`,
+                method:"PUT",
+                body: note,
+               
+            }),
+            invalidatesTags:["Notes"],
+        }),
         login: builder.mutation({
             query:(data)=>({
                 url:`/login`,
                 method:"POST",
-                body:data
+                body: data
             })
         }),
         tokenVerify: builder.mutation({
@@ -75,6 +84,13 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
                     Authorization: `${token}`, // Include the token in the Authorization header
                     'Content-Type': 'application/json', // Set the content type if needed
                 },
+            }),
+        }),
+        addUser: builder.mutation({
+            query:(data)=>({
+                url: '/signup',
+                method: 'POST', // 
+                body : data
             }),
         }),
         getUser: builder.mutation({
@@ -90,4 +106,4 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
     })
 })
 
-export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation ,useLoginMutation, useTokenVerifyMutation,useGetUserMutation } = notesApi;
+export const {useGetNotesQuery, useAddNoteMutation ,useDeleteNoteMutation, useUpdateNoteMutation, useUpdateFavoriteMutation, useSetArcheiveMutation ,useLoginMutation, useTokenVerifyMutation, useAddUserMutation ,useGetUserMutation, useUpdateTrashMutation } = notesApi;

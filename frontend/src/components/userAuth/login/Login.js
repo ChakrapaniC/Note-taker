@@ -1,6 +1,7 @@
 import React from 'react'
 import note from '../../image/noteimg.jpg';
-import logo from '../../image/bg34-1.png'
+import logo from '../../image/bg34-1.png';
+import paper from '../../image/8810413.jpg'
 import Register from '../register/Register';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginToggle } from '../../../features/createslice/userSlice';
@@ -9,12 +10,16 @@ import * as Yup from 'yup';
 import { useLoginMutation } from '../../../features/api/apiSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { ScaleLoader } from 'react-spinners';
+import { AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
+import { useState } from 'react';
 
 const Login = () => {
     // const [isActive, setisActive] = useState(false);
+    const [Show, setShow] = useState(false)
     const isActive = useSelector((state) => state.toggle.login);
     const dispatch = useDispatch();
-    const [login] = useLoginMutation();
+    const [login, { isLoading }] = useLoginMutation();
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -26,7 +31,7 @@ const Login = () => {
             try {
                 login(values).then((data) => {
                     if (data?.data !== undefined) {
-                        console.log({ data });
+                        console.log(data.data.token);
                         localStorage.setItem('jwtToken', data.data.token);
                         navigate('/home');
 
@@ -56,13 +61,26 @@ const Login = () => {
                 .required('Please enter password')
         })
     });
+
+    if (isLoading) {
+        return <div className=' flex justify-center items-center h-screen'><ScaleLoader color="blue" className='text-xl' /></div>
+    }
     return (
+
         <div className='h-[100vh] w-full flex bg-cutom-white'>
-            <div className='md:w-[50%] h-screen relative md:block hidden'><img src={logo} alt="loading" className=' mt-14 ml-14 bg-no-repeat bg-contain' />
-                <div className='absolute top-[20%] left-8'>
-                    <div className='text-2xl font-bold text-gradient'>
-                        Welcome to Note <span>Manager</span>
+            <div className='md:w-[50%] h-screen relative md:block hidden'><img src={logo} alt="loading" className=' mt-14 ml-14 bg-no-repeat bg-contain animate-slide-right' />
+                <div className='absolute top-[20%] left-10 flex flex-col'>
+                    <div className='text-[40px] mb-4 font-bold inline-block bg-gradient-to-r from-red-600 via-yellow-500 to-pink-400 text-transparent bg-clip-text'>
+                        Welcome to
                     </div>
+                    <div className='text-[45px] relative top-[200px] left-[400px] font-bold inline-block bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text'>
+                        Note Manager
+                    </div>
+                    {/* <div className='text-[30px] mt-10 font-bold inline-block text-black text-justify'>
+                        <p>Manage your daily tasks and workflow in a</p>
+                        <p>better way and boost your efficiency </p>
+                        <p>without any efforts</p>
+                    </div>      */}
                 </div>
             </div>
             <div className='md:w-[50%] w-full min-h-screen relative bg-black flex justify-center items-center'>
@@ -79,8 +97,10 @@ const Login = () => {
                                     onClick={() => dispatch(loginToggle(false))}>sign up</p>
                             </div>
                             <div className='w-full animate-pop-up h-auto'>
-                                <div> <img src={note} alt="..loading" className='h-screen w-full bg-cover' /></div>
-                                <div className='md:w-[450px] md:h-[400px] w-[350px] h-auto absolute md:top-[20%] md:left-[25%] top-[20%] left-5 border-2 border-opacity-50 border-black rounded-xl backdrop-blur-xl bg-transparent text-white flex flex-col  '>
+                                <div> <img src={note} alt="..loading" className='h-screen w-full bg-cover hidden md:block' />
+                                    <img src={paper} alt="..loading" className='h-screen w-full bg-cover md:hidden' />
+                                </div>
+                                <div className='md:w-[450px] md:h-[400px] w-[350px] h-auto absolute md:top-[20%] md:left-[25%] top-[20%] left-5 border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
                                     <p className='mt-2 mb-4 text-[30px] text-center font-semibold'>LogIn</p>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className=' w-[85%] mx-auto'>
@@ -90,8 +110,15 @@ const Login = () => {
                                         </div>
                                         <div className='text-xl w-[85%] mx-auto mt-4'>
                                             <p className='mb-2'>Password</p>
-                                            <input type="password" id='password' name='password' placeholder='enter your passsword' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} className='w-full rounded-xl h-[40px] outline-none text-black font-semibold px-2 text-sm' />
+                                            <input type={`${Show ? 'text' : 'password'}`} id='password' name='password' placeholder='enter your passsword' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} className='w-full rounded-xl h-[40px] outline-none text-black font-semibold px-2 text-sm' />
                                             {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
+                                            {
+                                                Show ? (
+                                                    <AiOutlineEye className='absolute top-[52%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
+                                                ) : (
+                                                    <AiOutlineEyeInvisible className='absolute top-[52%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
+                                                )
+                                            }
                                         </div>
                                         <div className='w-[85%] mx-auto px-4 py-2 mt-6 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:border-2 hover:border-red-600 hover:rounded-xl'>
                                             <button>Login</button>
@@ -113,4 +140,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Login;

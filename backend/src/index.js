@@ -38,10 +38,7 @@ app.use(session({
     resave:false
 }));
 
-mongoose.connect(process.env.MONGO_URI,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect('mongodb+srv://dukesharma71:Atlasforfirst@cluster0.hcsddtz.mongodb.net/NotesManager');
 mongoose.connection.once('open',()=>{
     console.log('connected to db');
 }).on('error',()=>{

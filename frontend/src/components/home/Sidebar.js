@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import avatar from '../image/avatar.png'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import person from '../image/person.png'
+import { sidebar } from '../../features/createslice/userSlice';
 
 const Sidebar = (props) => {
+    const [userDetails, setuserDetails] = useState([]);
     const navigate = useNavigate();
-    const deleteToken = () =>{
+    const temp = useSelector((state) => state.toggle.userinfo);
+    const dispatch = useDispatch();
+
+    const deleteToken = () => {
         localStorage.removeItem('jwtToken');
         navigate('/');
         toast.success('Logged Out seccessfully', {
@@ -19,27 +26,48 @@ const Sidebar = (props) => {
             progress: undefined,
             theme: "colored",
         });
+        dispatch(sidebar());
 
     }
+    const closeSidebar = () =>{
+        dispatch(sidebar());
+    }
+
+    useEffect(() => {
+
+        if (temp) {
+            setuserDetails(temp);
+        }
+
+    }, [temp])
+
+
+
     return (
         <>
-          
+
             <div className={`md:w-[80%] w-[100%] h-screen md:h-[800px] md:mx-auto mt-10 shadow-md sticky bg-white dark:bg-slate-900 dark:text-white  rounded-lg border-none`}>
                 {/* <div className=' hover:text-red-500 text-3xl inline-block absolute right-2 top-2 md:hidden ' onClick={props.toggleMenu}>
                     <ion-icon name="close-outline"></ion-icon>
                 </div> */}
-                <div className='flex items-center   g-3  py-8 px-4 text-xl border-b-2 '>
-                    <img src={avatar} alt="avatr" className='w-[70px] h-[70px]  shadow-sm filter-drop' />
-                    <p>peterParker</p>
+                <div className='flex flex-col items-center   g-3  py-8 px-4 text-xl border-b-2 '>
+                    {/* <img src={avatar} alt="avatr" className='w-[70px] h-[70px]  shadow-sm filter-drop' /> */}
+                    {/* <div>
+                        {userDetails !== undefined && Array.isArray(userDetails )&& (
+                            <p>{userDetails?.firstname?.charAt(0)?.toUpperCase()} </p>
+
+                        )}
+                    </div> */}
+                    <div><p>{userDetails?.firstname}&nbsp;{userDetails?.lastname}</p></div>
                 </div>
 
                 <div className='border-b-2'>
                     {/* <p>Menu</p> */}
                     <ul className='flex flex-col mt-2 md:mx-0 mx-2'>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold  focus:border-none focus:radius-xl focus:bg-red-400'><Link to='/home' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4'><ion-icon name="home-outline"></ion-icon>Home</Link></li>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/ArchiveNote' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4'><ion-icon name="archive-outline"></ion-icon>Archive</Link></li>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/favoriteNote' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4'><ion-icon name="star-outline"></ion-icon>Favorite</Link></li>
-                        <li className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><ion-icon name="trash-outline"></ion-icon>Trash</li>
+                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/home' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="home-outline"></ion-icon>Home</Link></li>
+                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/ArchiveNote' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="archive-outline"></ion-icon>Archive</Link></li>
+                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/favoriteNote' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="star-outline"></ion-icon>Favorite</Link></li>
+                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/TrashNote' className='flex gap-2 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="trash-outline"></ion-icon>Trash</Link></li>
                     </ul>
                 </div>
                 <div className='my-4'>
@@ -55,6 +83,9 @@ const Sidebar = (props) => {
                         <button>Contact</button>
                         <i class="fa-solid fa-user"></i>
                     </div>
+                </div>
+                <div className='mt-2'>
+                    <img src={person} alt="loading.." className='w-[350px] h-[200px] ' />
                 </div>
             </div>
         </>

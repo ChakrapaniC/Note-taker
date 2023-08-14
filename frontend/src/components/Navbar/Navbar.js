@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import logo from '../image/logo.png';
 import moon from '../image/moon.png';
 import sun from '../image/sun.png';
-import menu from '../image/menu.png';
-import close from '../image/close.png';
+// import menu from '../image/menu.png';
+// import close from '../image/close.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { sidebar } from '../../features/createslice/userSlice';
 const Navbar = (props) => {
   const [dark, setdark] = useState(false);
-  
-  const value = useSelector((state)=> state.toggle.sidebar);
+
+  const value = useSelector((state) => state.toggle.sidebar);
+  console.log(value)
   const dispatch = useDispatch();
-  
+
   function toggleMenu() {
     dispatch(sidebar());
   }
@@ -23,7 +24,7 @@ const Navbar = (props) => {
           <img src={logo} alt="...loading" className='w-7 h-7 ml-4 md:w-10 md:h-10 md:ml-9' />
           <p className='text-xl font-bold'> Note Manager</p>
         </div>
-       
+
 
         <div className='flex items-center'>
           <div onClick={() => { props.toggleMode(); setdark(!dark) }} className='cursor-pointer'>
@@ -33,14 +34,18 @@ const Navbar = (props) => {
 
           <button className='mr-9 font-semibold text-lg '>
             <div className='items-center md:hidden ' onClick={toggleMenu}>
-              <img className='w-8 h-8' src={value ? close : menu} alt="" />
+              {value ? (
+                <i className="fas fa-xmark fa-2x"></i>
+              ) : (
+                <i className="fas fa-bars fa-2x"></i>
+              )}
             </div>
           </button>
         </div>
 
-       
+
       </nav>
-      
+
     </>
   )
 }

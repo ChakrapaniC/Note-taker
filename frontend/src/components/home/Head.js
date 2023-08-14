@@ -1,10 +1,13 @@
 import React from 'react';
 import pen from '../image/edit.png';
 import { useState , useEffect} from 'react';
-import { useAddNoteMutation, useGetUserMutation , useTokenVerifyMutation } from '../../features/api/apiSlice';
+import { useAddNoteMutation, } from '../../features/api/apiSlice';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { userIdState } from '../../features/createslice/userSlice';
+import {  useSelector } from 'react-redux';
+// import { userIdState } from '../../features/createslice/userSlice';
+import NotesData from '../HOC/NotesData';
+import write from '../image/write.png';
+import {FiEdit } from "react-icons/fi";
 
 const Head = () => {
     const [Note, setNote] = useState(false);
@@ -15,12 +18,12 @@ const Head = () => {
 
     const [addNote] = useAddNoteMutation();
     // const [verifyToken] = useTokenVerifyMutation();
-    const [getUser] = useGetUserMutation();
-    const dispatch = useDispatch();
+    // const [getUser] = useGetUserMutation();
+    // const dispatch = useDispatch();
     const UserId = useSelector((state)=> state.toggle.userid);
-
+    console.log(UserId);
     const AddNote = () =>{
-       addNote({_id: UserId , title: Title, isFav:"false", isArchive:"false", description: Description});
+       addNote({_id: UserId , title: Title, isFav:"false", isArchive:"false", isTrash:"false", description: Description});
        toast.success('Add Note Success', {
         position: "top-right",
         autoClose: 2000,
@@ -37,36 +40,35 @@ const Head = () => {
     };
 
     useEffect(() => {
-      const token = localStorage.getItem('jwtToken');
-      console.log(token);
-    //   verifyToken(token).then(data =>{
-    //     console.log(data);
-    //     console.log('token verify');
+    //   const token = localStorage.getItem('jwtToken');
+    //   console.log(token);
+    //   getUser(token).then(data =>{
+    //     console.log(data.data._id);
+    //     dispatch(userIdState(data.data._id));
     //   }).catch(err =>{
     //     console.log(err);
-    //   })
-       
-      getUser(token).then(data =>{
-        console.log(data.data._id);
-        dispatch(userIdState(data.data._id));
-      }).catch(err =>{
-        console.log(err);
-      });
-
+    //   });
+    console.log("printed")
+    }, [] )
       
     
-    }, [])
+    // }, [])
     
     return (
         <>
             <div className='w-[95%] mx-auto p-6 mt-8 md:mt-10 bg-white  dark:bg-slate-900 dark:text-white rounded-lg relative'>
-
+                     <div className='absolute right-4 top-0'>
+                        <img src={write} alt="loading..."  className='w-[100px] h-[80px]'/>
+                    </div>
                 <div className={`mr-2 md:ml-5 hover:font-semibold ${Note ? 'h-[220px] animate-slide-down' : 'h-[30px] overflow-hidden animate-slide-up' } `} >
-                    <button href="/" className='flex gap-4 items-center text-lg ' onClick={() => setNote(!Note)}>
-                        <img className='w-6 h-6' src={pen} alt="" />
+                  
+                    <button href="/" className='flex gap-4 items-center text-xl ' onClick={() => setNote(!Note)}>
+                       <FiEdit/>
                         write a note
-                    </button>
 
+                    </button>
+                    
+                
                     <div className='my-5 w-[80%]' >
                         <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='Title' onChange={(e)=>{setTitle(e.target.value)}}/>
                     </div>
@@ -99,4 +101,4 @@ const Head = () => {
     )
 }
 
-export default Head
+export default NotesData(Head)

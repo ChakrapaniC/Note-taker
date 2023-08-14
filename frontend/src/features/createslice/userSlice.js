@@ -9,6 +9,7 @@ export const stateSlice = createSlice({
         grid:true,
         login:true,
         userid:'',
+        userinfo:[],
     },
     reducers:{
         editNoteToggle:(state)=>{
@@ -19,7 +20,6 @@ export const stateSlice = createSlice({
         },
         sidebar:(state)=>{
             state.sidebar = !state.sidebar;
-            console.log(state.sidebar);
         },
         gridToggle:(state)=>{
             state.grid = !state.grid
@@ -29,9 +29,12 @@ export const stateSlice = createSlice({
         },
         userIdState: (state, action)=>{
             state.userid = action.payload
+        },
+        userInfo: (state,action) => {
+            state.userinfo = action.payload;
         }
 
     }
 });
  
-export const {editNoteToggle, addNoteToggle, sidebar , gridToggle , loginToggle, userIdState} = stateSlice.actions;
+export const {editNoteToggle, addNoteToggle, sidebar , gridToggle , loginToggle, userIdState, userInfo} = stateSlice.actions;

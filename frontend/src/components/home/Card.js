@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import { useDeleteNoteMutation, useGetNotesQuery, useSetArcheiveMutation, useUpdateFavoriteMutation, useUpdateNoteMutation } from '../../features/api/apiSlice';
+import { useDeleteNoteMutation, useSetArcheiveMutation, useUpdateFavoriteMutation, useUpdateNoteMutation, useUpdateTrashMutation } from '../../features/api/apiSlice';
 import moment from 'moment';
-import { ScaleLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 // import {  useSelector } from 'react-redux';
 const Card = (props) => {
     const { item } = props
@@ -12,25 +11,50 @@ const Card = (props) => {
     const [title, settitle] = useState('');
     const [description, setdescription] = useState('');
     const [NoteId, setNoteId] = useState();
-    const { isLoading } = useGetNotesQuery();
+
 
     // const addNote = useSelector((state) => state.toggle);
 
     // if (addNote) {
     //     console.log(addNote)
-    const grid = useSelector((state)=> state.toggle.grid);
-    const userid = useSelector((state)=> state.toggle.userid)
+    const grid = useSelector((state) => state.toggle.grid);
+    const userid = useSelector((state) => state.toggle.userid)
+
     console.log(grid)
-    const [deleteItem] = useDeleteNoteMutation();
+    const [changeTrash] = useUpdateTrashMutation();
+    const [deleteNote] = useDeleteNoteMutation();
     const [updateItem] = useUpdateNoteMutation();
     const [updateFav] = useUpdateFavoriteMutation();
     const [updateArcheive] = useSetArcheiveMutation();
 
-    const deleteNote = (id) => {
-        deleteItem({ "_id": userid, "NoteId": id });
+    const updateTrash = (id) => {
+        changeTrash({ _id: userid, isTrash: !item.isTrash, id: id });
+        toast.success('Trash Update Successfully', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+    };
+    const DeleteNote = (id) => {
+        deleteNote({ "id": userid, "Noteid": id });
+        toast.success('Note Deleted Successfully', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
     }
     const updateNote = () => {
-        updateItem({ _id: "1", title: title, description: description, id: NoteId });
+        updateItem({ _id: userid, title: title, description: description, id: NoteId });
         toast.success('Note Edited Success', {
             position: "top-right",
             autoClose: 2000,
@@ -75,11 +99,11 @@ const Card = (props) => {
             });
         });
     }
-    if (isLoading) {
-        return <div className=' flex justify-center items-center h-[50px]'><ScaleLoader color="red" /></div>
-    }
+    // if (isLoading) {
+    //     return <div className=' flex justify-center items-center h-[50px]'><ScaleLoader color="red" /></div>
+    // }
 
-    
+
     return (
         <>
             {
@@ -106,9 +130,13 @@ const Card = (props) => {
                             </div>
                             <div className='absolute bottom-0 border-t-2 w-full h-[50px] flex justify-between items-center px-3'>
                                 <p>{moment(item.createdAt).format('YYYY-MM-DD')}</p>
-                                <div className='flex gap-3'>
+                                <div className={`${item.isTrash ? 'hidden' : 'flex'} gap-3`}>
                                     <button className='border-1 py-1 px-3 rounded-md bg-pink-400 text-white hover:bg-black' onClick={() => { setEditCard(!EditCard); settitle(item.title); setdescription(item.description); setNoteId(item._id); window.scrollTo(0, 0) }} >Edit</button>
-                                    <button className='border-1 py-1 px-3 rounded-md bg-blue-400 text-white hover:bg-black' onClick={() => { deleteNote(item._id) }} >Delete</button>
+                                    <button className='border-1 py-1 px-3 rounded-md bg-blue-400 text-white hover:bg-black' onClick={() => { updateTrash(item._id) }} >Delete</button>
+                                </div>
+                                <div className={`${item.isTrash ? 'flex' : 'hidden'} gap-3`}>
+                                    <button className='border-1 py-1 px-3 rounded-md bg-pink-400 text-white hover:bg-black' onClick={() => { updateTrash(item._id) }} >Undo</button>
+                                    <button className='border-1 py-1 px-3 rounded-md bg-blue-400 text-white hover:bg-black' onClick={() => { DeleteNote(item._id) }} >Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -158,9 +186,15 @@ const Card = (props) => {
                             <td className='py-4 pl-2' colSpan={2} ><p className='text-xl font-semibold mb-2'>{item.title}</p>  <p className='text-lg'>{item.description}</p></td>
                             <td className='py-4  text-center'>{moment(item.createdAt).format('YYYY-MM-DD')}</td>
                             <td className='py-4 '>
-                                <div className='flex gap-3 justify-center'>
-                                    <div className='px-2 py-1 rounded-[20%] bg-green-300 text-xl' onClick={() => { setEditCard(!EditCard); settitle(item.title); setdescription(item.description); setNoteId(item._id) }}><ion-icon name="create-outline"></ion-icon></div>
-                                    <div className='px-2 py-1 rounded-[20%] bg-pink-300 text-xl'> <ion-icon name="trash-outline"></ion-icon></div>
+                                <div className='flex  justify-center'>
+                                    <div  className={`${item?.isTrash ? 'hidden' : 'flex'} gap-3 `}>
+                                        <div className='px-2 py-1 rounded-[20%] bg-green-300 text-xl' onClick={() => { setEditCard(!EditCard); settitle(item.title); setdescription(item.description); setNoteId(item._id) }}><ion-icon name="create-outline"></ion-icon></div>
+                                        <div className='px-2 py-1 rounded-[20%] bg-pink-300 text-xl' onClick={() => { updateTrash(item._id) }}> <ion-icon name="trash-outline"></ion-icon></div>
+                                    </div>
+                                    <div  className={`${item?.isTrash ? 'flex' : 'hidden'} gap-3 `}>
+                                        <div className='px-2 py-1 rounded-[20%] bg-green-300 text-xl' onClick={() => { updateTrash(item._id) }}><ion-icon name="arrow-undo-sharp"></ion-icon></div>
+                                        <div className='px-2 py-1 rounded-[20%] bg-pink-300 text-xl' onClick={() => { DeleteNote(item._id) }} > <ion-icon name="trash-outline"></ion-icon></div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

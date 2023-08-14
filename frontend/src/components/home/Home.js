@@ -2,20 +2,23 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "./Card";
 import Head from "./Head";
-import { useGetNotesQuery } from "../../features/api/apiSlice";
 import { gridToggle } from "../../features/createslice/userSlice";
 import Sidebar from "./Sidebar";
+import NotesData from "../HOC/NotesData";
 
 const Home = (props) => {
+  const {data} = props;
   const [Result, setResult] = useState([]);
   const grid = useSelector((state) => state.toggle.grid);
   const dispatch = useDispatch();
   const sidebarOpen = useSelector((state) => state.toggle.sidebar);
-  const userid = useSelector((state)=> state.toggle.userid);
-  const { data } = useGetNotesQuery(userid);
+  console.log(sidebarOpen)
+  // const userid = useSelector((state)=> state.toggle.userid);
+  // const { data } = useGetNotesQuery(userid);
+ 
   console.log(grid);
   useEffect(() => {
-    const temp = data !== undefined && data?.Notes.filter((x) => x.isArchive === false);
+    const temp = data !== undefined && data?.Notes.filter((x) => x.isArchive === false && x.isTrash === false);
     setResult(temp);
   }, [data]);
 
@@ -26,14 +29,15 @@ const Home = (props) => {
           <Sidebar />
         </div>
 
-        <main className="md:w-[80%] w-full">
+        <main className="md:w-[80%] w-full min-h-screen md:h-auto">
 
 
 
           <header>
             <Head />
           </header>
-
+        {
+          Result !== undefined && Result?.length !==0 ?
           <section className="w-[95%] h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 transition duration-300 ease-in-out">
             <div className="flex justify-between items-center px-6 py-4 text-2xl">
               <p className=" dark:text-white">Your Notes</p>
@@ -86,12 +90,12 @@ const Home = (props) => {
                 </table>
               )
             )}
-          </section>
-
+          </section> : <div className="w-[95%] flex items-center justify-center  text-2xl font-semibold md:h-[250px]  mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2 ">Please Add And Manage Your Daily Tasks And Workflow In A Better Way  :-)</div>
+        } 
         </main>
       </div>
     </>
   );
 };
 
-export default Home;
+export default NotesData(Home);

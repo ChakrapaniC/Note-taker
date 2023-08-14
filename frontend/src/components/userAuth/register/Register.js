@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import note from '../../image/noteimg.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginToggle } from '../../../features/createslice/userSlice';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom';
+import { useAddUserMutation,} from '../../../features/api/apiSlice';
+import { AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 const Register = (props) => {
+    const [Show, setShow] = useState(false)
     const isActive = useSelector((state) => state.toggle.login);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [addUser] = useAddUserMutation();
+    // const [generateToken] = useGetUserMutation();
 
+  
     const formik = useFormik({
         initialValues: {
             firstname: '',
@@ -19,14 +26,15 @@ const Register = (props) => {
         },
         onSubmit: values => {
             // 
-            fetch('http://localhost:8000/api/v1/signup',{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(values)
-            }).then(res => res.json()).then(data =>{
-                console.log(data);
+            // fetch('http://localhost:8000/api/v1/signup',{
+            //     method:'POST',
+            //     headers:{
+            //         'Content-Type':'application/json'
+            //     },
+            //     body: JSON.stringify(values)
+            addUser(values)
+            .then(data =>{
+                console.log(data.data.data.token);
                 toast.success('User Signup Successfylly', {
                     position: "top-right",
                     autoClose: 2000,
@@ -37,6 +45,9 @@ const Register = (props) => {
                     progress: undefined,
                     theme: "colored",
                 });
+                localStorage.setItem('jwtToken', data?.data?.data.token);
+                navigate('/home');
+               
             })
         },
         validationSchema: Yup.object().shape({
@@ -58,9 +69,13 @@ const Register = (props) => {
         })
     });
 
+    // if(isLoading){
+    //     return <div className=' flex justify-center items-center h-screen'><ScaleLoader color="blue" className='text-xl'/></div>
+    // }
+
     return (
         <>
-            <div className='absolute top-[20%] left-[-13.5%] bg-red'>
+            <div className='absolute top-[20%] left-[-13.5%] bg-red hidden md:block' >
                 <p className={`group px-5 py-2 text-xl mb-2   ${isActive ? 'bg-black  text-white dark:text-black dark:bg-white border-none rounded-tl-[20px] rounded-bl-[20px]' : 'text-black dark:text-white'
                     } focus:outline-none focus:ring focus:bg-blue-500 focus:border-blue-500`}
                     onClick={() => dispatch(loginToggle(true))}>login</p>
@@ -70,28 +85,35 @@ const Register = (props) => {
             </div>
             <div className='w-full animate-pop-up'>
                 <div> <img src={note} alt="..loading" className='min-h-screen' /></div>
-                <div className='w-[480px] h-auto absolute top-[8%] left-[25%] border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl bg-transparent text-white flex flex-col  '>
+                <div className='w-[360px] md:w-[480px] h-auto absolute md:top-[8%] md:left-[25%] left-4 top-[15%] border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl bg-transparent text-white flex flex-col  '>
                     <p className='mt-2 mb-4 text-[30px] text-center font-semibold'>SignUp</p>
                     <form onSubmit={formik.handleSubmit}>
                         <div className=' w-[85%] mx-auto mb-4'>
                             <p className='mb-2 text-xl'>Firstname</p>
-                            <input type="text" id='firstname' name='firstname' value={formik.values.firstname} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='enter your firstname' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2' />
+                            <input type="text" id='firstname' name='firstname' value={formik.values.firstname} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='enter your firstname' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2 text-lg' />
                             {formik.errors.firstname && formik.touched.firstname ? <span className='text-red-600'>{formik.errors.firstname}</span> : null}
                         </div>
                         <div className=' w-[85%] mx-auto mb-4'>
                             <p className='mb-2 text-xl'>Lastname</p>
-                            <input type="text" id='lastname' name='lastname' value={formik.values.lastname} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='enter your lastname' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2' />
+                            <input type="text" id='lastname' name='lastname' value={formik.values.lastname} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='enter your lastname' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2 text-lg' />
                             {formik.errors.lastname && formik.touched.lastname ? <span className='text-red-600'>{formik.errors.lastname}</span> : null}
                         </div>
                         <div className=' w-[85%] mx-auto mb-4'>
                             <p className='mb-2 text-xl'>Email Address</p>
-                            <input type="email" id='email' name='email' value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='enter your email..' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2' />
+                            <input type="email" id='email' name='email' value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='enter your email..' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2 text-lg' />
                             {formik.errors.email && formik.touched.email ? <span className='text-red-600'>{formik.errors.email}</span> : null}
                         </div>
-                        <div className='text-xl w-[85%] mx-auto mb-6'>
+                        <div className='text-xl w-[85%] mx-auto mb-6  '>
                             <p className='mb-2'>Password</p>
-                            <input type="password" id='password ' name='password' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='create a password' className='w-full rounded-xl h-[40px]  text-black font-semibold px-2 text-sm' />
+                            <input type={`${Show ? 'text' : 'password'}`} id='password ' name='password' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='create a password' className='w-full rounded-xl h-[40px] text-black  font-semibold px-2 text-lg' />
                             {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
+                            {
+                                Show ? (
+                                    <AiOutlineEye className='absolute top-[77.5%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={()=> {setShow(!Show)}}/>
+                                ) : (
+                                    <AiOutlineEyeInvisible className='absolute top-[77.5%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={()=> {setShow(!Show)}}/>
+                                )
+                            }
                         </div>
 
                         <div className='w-[85%] mx-auto mb-4 px-4 py-2  rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:border-2 hover:border-red-600 hover:rounded-xl'>
@@ -104,4 +126,4 @@ const Register = (props) => {
     )
 }
 
-export default Register
+export default Register;

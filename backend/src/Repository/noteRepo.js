@@ -2,7 +2,7 @@ const NoteModel = require('../Model/noteModel');
 const { v4: uuidv4 } = require('uuid');
 
 function getNotes(req,res) {
-    // console.log(req.query._id);
+    console.log(req.query._id);
     return new Promise((resolve, reject) => {
         NoteModel.findById({_id: req.params.id}).then((data) => {
             resolve(data)
@@ -13,7 +13,6 @@ function getNotes(req,res) {
 }
 
 function addNote(note) {
-    console.log(note.body)
     return new Promise((resolve, reject) => {
         NoteModel.findOne({ _id: note.body._id }).then((data) => {
             console.log(note.body._id);
@@ -27,6 +26,7 @@ function addNote(note) {
                                 title: note.body.title,
                                 isFav: note.body.isFav,
                                 isArchive: note.body.isArchive,
+                                isTrash: note.body.isTrash,
                                 description: note.body.description
                             }
                         }
@@ -47,13 +47,15 @@ function addNote(note) {
                         _id: uuidv4(),
                         title: note.body.title,
                         isFav: note.body.isFav,
+                        isTrash: note.body.isTrash,
                         isArchive: note.body.isArchive,
                         description: note.body.description,
                     }]
                 });
 
-                newnote.save().then(() => {
+                newnote.save().then((data) => {
                     resolve('new note created successfully');
+                    console.log(data)
                 }).catch((err) => {
                     reject(err);
                 });
@@ -72,8 +74,9 @@ function addNote(note) {
 
 
 function deleteNote(note) {
+    console.log(note.body)
     return new Promise((resolve, reject) => {
-        NoteModel.findOneAndUpdate({ _id: note.body._id }, { $pull: { Notes: { _id: note.body.NoteId } } })
+        NoteModel.findOneAndUpdate({ _id: note.body.id }, { $pull: { Notes: { _id: note.body.Noteid } } })
             .then((data) => {
                 resolve(data)
             })
@@ -123,4 +126,18 @@ function setArchive(note) {
     });
 }
 
-module.exports = { getNotes, addNote, deleteNote, updateNote, updateFav,setArchive };
+function updateTrash(note) {
+    console.log(note.body)
+    return new Promise((resolve,reject)=>{
+        NoteModel.findOneAndUpdate({_id :note.body._id },{ $set: { "Notes.$[elem].isTrash" : note.body.isTrash } },
+        { arrayFilters: [{ "elem._id": note.params.id }], new: true })
+        .then((data)=>{
+            resolve(data);
+        })
+        .catch((err)=>{
+            reject(err)
+        })
+    });
+}
+
+module.exports = { getNotes, addNote, deleteNote, updateNote, updateFav, setArchive , updateTrash };
