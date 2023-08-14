@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
 // import { userIdState } from '../../features/createslice/userSlice';
 import NotesData from '../HOC/NotesData';
-import write from '../image/write.png';
+import write from '../image/write-removebg-preview.png';
 import {FiEdit } from "react-icons/fi";
 
 const Head = () => {
@@ -70,10 +70,10 @@ const Head = () => {
                     
                 
                     <div className='my-5 w-[80%]' >
-                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='Title' onChange={(e)=>{setTitle(e.target.value)}}/>
+                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" value={Title} placeholder='Title' onChange={(e)=>{setTitle(e.target.value)}}/>
                     </div>
                     <div className=' my-5 w-[80%]'>
-                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" placeholder='make a note..' onChange={(e)=>{setDescription(e.target.value)}} />
+                        <input className='w-[100%] py-2 outline-none text-xl font-semibold' type="text" value={Description} placeholder='make a note..' onChange={(e)=>{setDescription(e.target.value)}} />
                     </div>
                     <div className='flex items-center gap-4   justify-end '>
                         <button className='border-2 border-black hover:bg-black hover:text-white py-2 px-3 rounded-md' onClick={AddNote}>Add</button>

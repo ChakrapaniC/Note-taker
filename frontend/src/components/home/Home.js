@@ -69,7 +69,7 @@ const Home = (props) => {
             ) : (
               Result !== undefined &&
               Array.isArray(Result) && (
-                <table className="w-[95%] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
+                <table className="md:w-[95%]   mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
                   <thead>
                     <tr className="bg-black text-white">
                       <th

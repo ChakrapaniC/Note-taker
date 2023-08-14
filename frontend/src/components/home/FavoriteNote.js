@@ -62,7 +62,7 @@ const FavoriteNote = (props) => {
               Favorite !== undefined && Favorite?.length !==0 ?
                 <div className="md:w-[80%] w-full">
                     <div className="w-[95%]  h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">
-                        <div className=" flex justify-between items-center px-6 py-4 text-2xl">
+                        <div className=" flex justify-between  items-center px-6 py-4 text-2xl">
                             <p className=" dark:text-white">Favorite Notes :-</p>
                             {grid ? (
                                 <ion-icon
@@ -80,7 +80,7 @@ const FavoriteNote = (props) => {
                                 ></ion-icon>
                             )}
                         </div>
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap ">
                             {Favorite !== undefined &&
                                 Array.isArray(Favorite) &&
                                 Favorite?.map((item) => FavoriteCard(item))}

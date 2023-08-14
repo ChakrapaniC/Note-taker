@@ -6,11 +6,14 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import person from '../image/person.png'
 import { sidebar } from '../../features/createslice/userSlice';
+import moment from 'moment';
 
 const Sidebar = (props) => {
     const [userDetails, setuserDetails] = useState([]);
+    const [FullDetail, setFullDetail] = useState(false)
     const navigate = useNavigate();
     const temp = useSelector((state) => state.toggle.userinfo);
+    console.log(temp)
     const dispatch = useDispatch();
 
     const deleteToken = () => {
@@ -29,7 +32,7 @@ const Sidebar = (props) => {
         dispatch(sidebar());
 
     }
-    const closeSidebar = () =>{
+    const closeSidebar = () => {
         dispatch(sidebar());
     }
 
@@ -46,19 +49,27 @@ const Sidebar = (props) => {
     return (
         <>
 
-            <div className={`md:w-[80%] w-[100%] h-screen md:h-[800px] md:mx-auto mt-10 shadow-md sticky bg-white dark:bg-slate-900 dark:text-white  rounded-lg border-none`}>
+            <div className={`md:w-[80%] w-[100%] h-screen md:h-[800px] md:mx-auto mt-10 shadow-md sticky bg-white dark:bg-slate-900 dark:text-white  rounded-lg border-none scroll-m-5`}>
                 {/* <div className=' hover:text-red-500 text-3xl inline-block absolute right-2 top-2 md:hidden ' onClick={props.toggleMenu}>
                     <ion-icon name="close-outline"></ion-icon>
                 </div> */}
-                <div className='flex flex-col items-center   g-3  py-8 px-4 text-xl border-b-2 '>
+                <div className={`flex flex-col items-center ${FullDetail ? 'h-[200px] transition-all ease-linear duration-150' : 'h-[137px] transition-all ease-linear duration-150 overflow-hidden'} py-4  g-2  text-xl border-b-2 `}>
                     {/* <img src={avatar} alt="avatr" className='w-[70px] h-[70px]  shadow-sm filter-drop' /> */}
-                    {/* <div>
-                        {userDetails !== undefined && Array.isArray(userDetails )&& (
-                            <p>{userDetails?.firstname?.charAt(0)?.toUpperCase()} </p>
+                    <div className='bg-orange-400 p-6 border-none rounded-[50%] ml-2'>
+                        {temp !== undefined && temp.length !== 0 ? (
 
-                        )}
-                    </div> */}
-                    <div><p>{userDetails?.firstname}&nbsp;{userDetails?.lastname}</p></div>
+                            <p>{temp?.firstname[0]?.toUpperCase()}{temp?.lastname[0]?.toUpperCase()}</p>
+
+                        ) : <p>undefined</p>}
+                    </div>
+                    <div className='mt-2 text-center '>
+                        <p>{userDetails?.firstname}&nbsp;{userDetails?.lastname} </p>
+                        <span className='float-right mt-[-24px] cursor-pointer' onClick={() => { setFullDetail(!FullDetail) }}>{
+                            FullDetail ? <ion-icon name="arrow-up-circle-outline"></ion-icon> : <ion-icon name="chevron-down-circle-outline"></ion-icon>
+                        }</span>
+                        <p>{userDetails?.email}</p>
+                        <p>Created At-{moment(userDetails.createdAt).format('YYYY-MM-DD')}</p>
+                    </div>
                 </div>
 
                 <div className='border-b-2'>
@@ -92,4 +103,4 @@ const Sidebar = (props) => {
     )
 }
 
-export default Sidebar
+export default React.memo(Sidebar);

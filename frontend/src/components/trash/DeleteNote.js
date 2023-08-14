@@ -77,7 +77,7 @@ const DeleteNote = (props) => {
                                 ></ion-icon>
                             )}
                         </div>
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap mx-2.5">
                             {Trash !== undefined &&
                                 Array.isArray(Trash) &&
                                 Trash?.map((item) => TrashCard(item))}

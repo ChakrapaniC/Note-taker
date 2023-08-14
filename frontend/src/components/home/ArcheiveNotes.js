@@ -87,7 +87,7 @@ const ArcheiveNotes = (props) => {
                                 ></ion-icon>
                             )}
                         </div>
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap ">
                             {result !== undefined &&
                                 Array.isArray(result) &&
                                 result?.map((item) => ArchiveCard(item))}
