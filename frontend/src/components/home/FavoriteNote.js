@@ -29,7 +29,8 @@ const FavoriteNote = (props) => {
                 return <Card item={item} key={item._id} />;
             } else {
                 return (
-                    <table className="w-[95%] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
+                 <div className="overflow-x-auto">
+                    <table className="md:w-[95%] w-[500px] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
                         <thead>
                             <tr className="bg-black text-white">
                                 <th className="text-left py-2 pl-2 rounded-tl-lg" colSpan={2}>
@@ -43,6 +44,7 @@ const FavoriteNote = (props) => {
                             <Card key={item._id} grid={grid} item={item} />
                         </tbody>
                     </table>
+                   </div>
                 );
             }
         }

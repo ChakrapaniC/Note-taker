@@ -4,15 +4,16 @@ import logo from '../../image/bg34-1.png';
 import paper from '../../image/8810413.jpg'
 import Register from '../register/Register';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginToggle } from '../../../features/createslice/userSlice';
+import { loginToggle, userIdState } from '../../../features/createslice/userSlice';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useLoginMutation } from '../../../features/api/apiSlice';
+import { useGetNotesQuery, useLoginMutation } from '../../../features/api/apiSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
-import { AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from 'react';
+
 
 const Login = () => {
     // const [isActive, setisActive] = useState(false);
@@ -21,6 +22,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const [login, { isLoading }] = useLoginMutation();
     const navigate = useNavigate();
+
 
     const formik = useFormik({
         initialValues: {
@@ -61,7 +63,32 @@ const Login = () => {
                 .required('Please enter password')
         })
     });
+    const demoLogin = () => {
+        const demo = {
+            email: "demologin@gmail.com",
+            password: "demologin1"
+        };
+        login(demo).then((data) => {
+            if (data?.data !== undefined) {
+                console.log(data.data.token);
+                localStorage.setItem('jwtToken', data.data.token);
+                navigate('/home');
 
+            } else {
+                toast.success('Please Enter Valid Email and Password', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+        })
+
+    }
     if (isLoading) {
         return <div className=' flex justify-center items-center h-screen'><ScaleLoader color="blue" className='text-xl' /></div>
     }
@@ -100,7 +127,7 @@ const Login = () => {
                                 <div> <img src={note} alt="..loading" className='h-screen w-full bg-cover hidden md:block' />
                                     <img src={paper} alt="..loading" className='h-screen w-full bg-cover md:hidden' />
                                 </div>
-                                <div className='md:w-[450px] md:h-[400px] w-[350px] h-auto absolute md:top-[20%] md:left-[25%] top-[20%] left-5 border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
+                                <div className='md:w-[450px]  w-[350px] h-auto absolute md:top-[20%] md:left-[25%] top-[20%] left-5 border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
                                     <p className='mt-2 mb-4 text-[30px] text-center font-semibold'>LogIn</p>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className=' w-[85%] mx-auto'>
@@ -110,22 +137,28 @@ const Login = () => {
                                         </div>
                                         <div className='text-xl w-[85%] mx-auto mt-4'>
                                             <p className='mb-2'>Password</p>
-                                            <input type={`${Show ? 'text' : 'password'}`} id='password' name='password' placeholder='enter your passsword' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} className='w-full rounded-xl h-[40px] outline-none text-black font-semibold px-2 text-sm' />
-                                            {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
-                                            {
-                                                Show ? (
-                                                    <AiOutlineEye className='absolute top-[52%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
-                                                ) : (
-                                                    <AiOutlineEyeInvisible className='absolute top-[52%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
-                                                )
-                                            }
+                                            <div className='relative'>
+                                                <input type={`${Show ? 'text' : 'password'}`} id='password' name='password' placeholder='enter your passsword' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} className='w-full rounded-xl h-[40px] outline-none text-black font-semibold px-2 text-sm' />
+                                                {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
+                                                {
+                                                    Show ? (
+                                                        <AiOutlineEye className='absolute top-2 right-6 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
+                                                    ) : (
+                                                        <AiOutlineEyeInvisible className='absolute top-2 right-6 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
+                                                    )
+                                                }
+                                            </div>
                                         </div>
                                         <div className='w-[85%] mx-auto px-4 py-2 mt-6 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:border-2 hover:border-red-600 hover:rounded-xl'>
                                             <button>Login</button>
                                         </div>
-                                        <div className='w-[85%] mx-auto px-4 py-2 mt-6 mb-6 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500  '>
-                                            <button type='button'>Dont Have Account?&nbsp;<span className='text-black hover:text-orange-400' onClick={() => dispatch(loginToggle(false))}>Signup</span></button>
+                                        <div className='w-[85%] mx-auto px-4 py-2 mt-6 mb-3 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500  '>
+                                            <button type='button' onClick={demoLogin}>Demo Login</button>
                                         </div>
+                                        <div className='w-[85%] mx-auto px-4 py-2  mb-2 rounded-lg text-center text-xl   '>
+                                            <button type='button'>Dont Have Account?&nbsp;<span className='text-red-400 hover:text-orange-400' onClick={() => dispatch(loginToggle(false))}>Signup</span></button>
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>

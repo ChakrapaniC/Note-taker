@@ -111,7 +111,7 @@ const Card = (props) => {
                     <div className='flex justify-center items-center flex-col mx-auto md:mx-0 md:flex-row md:justify-normal  animate-pop-up '>
 
 
-                        <div className={` ${item.archeive ? 'hideen' : 'block'} mx-auto my-6  md:m-4 w-[350px] h-[250px]  relative items-center bg-custom-white dark:bg-slate-800 border-none  rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400`}>
+                        <div className={` ${item.archeive ? 'hideen' : 'block'} mx-auto my-6 md:mx-[110px] lg:m-4 w-[350px] h-[250px]  relative items-center bg-custom-white dark:bg-slate-800 border-none  rounded-xl shadow-lg hover:shadow-lg hover:shadow-orange-400`}>
                             <div className='border-b-2 px-3 h-[50px] flex items-center justify-between text-lg font-semibold'>
                                 <p>{item.title}</p>
                                 <div className='flex gap-3'>
@@ -183,15 +183,15 @@ const Card = (props) => {
 
 
                         <tr key={item._id} className='py-8 border-b-2 border-b-slate-300  w-[100%] '>
-                            <td className='py-4 pl-2 ' colSpan={2} ><p className='text-xl font-semibold mb-2 w-[50px]'>{item.title}</p>  <p className='text-lg ]'>{item.description}</p></td>
+                            <td className='py-4 pl-2 ' colSpan={2} ><p className='text-xl font-semibold mb-2 '>{item.title}</p>  <p className='text-lg ]'>{item.description}</p></td>
                             <td className='py-4  text-center'>{moment(item.createdAt).format('YYYY-MM-DD')}</td>
                             <td className='py-4 '>
                                 <div className='flex  justify-center'>
-                                    <div  className={`${item?.isTrash ? 'hidden' : 'flex'} md:gap-3 gap-1 `}>
+                                    <div  className={`${item?.isTrash ? 'hidden' : 'flex'} gap-3  `}>
                                         <div className='px-2 py-1 rounded-[20%] bg-green-300 text-xl' onClick={() => { setEditCard(!EditCard); settitle(item.title); setdescription(item.description); setNoteId(item._id) }}><ion-icon name="create-outline"></ion-icon></div>
                                         <div className='px-2 py-1 rounded-[20%] bg-pink-300 text-xl' onClick={() => { updateTrash(item._id) }}> <ion-icon name="trash-outline"></ion-icon></div>
                                     </div>
-                                    <div  className={`${item?.isTrash ? 'flex ' : 'hidden'} md:gap-3 gap-1  `}>
+                                    <div  className={`${item?.isTrash ? 'flex ' : 'hidden'} gap-3  `}>
                                         <div className='px-2 py-1 rounded-[20%] bg-green-300 text-xl' onClick={() => { updateTrash(item._id) }}><ion-icon name="arrow-undo-sharp"></ion-icon></div>
                                         <div className='px-2 py-1 rounded-[20%] bg-pink-300 text-xl' onClick={() => { DeleteNote(item._id) }} > <ion-icon name="trash-outline"></ion-icon></div>
                                     </div>

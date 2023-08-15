@@ -6,6 +6,9 @@ import sun from '../image/sun.png';
 // import close from '../image/close.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { sidebar } from '../../features/createslice/userSlice';
+import { FaBarsStaggered } from 'react-icons/fa6';
+import { GrClose } from "react-icons/gr"
+
 const Navbar = (props) => {
   const [dark, setdark] = useState(false);
 
@@ -33,11 +36,14 @@ const Navbar = (props) => {
 
 
           <button className='mr-9 font-semibold text-lg '>
-            <div className='items-center md:hidden ' onClick={toggleMenu}>
+            <div className='items-center md:hidden text-3xl' onClick={toggleMenu}>
               {value ? (
-                <i className="fas fa-xmark fa-2x"></i>
+              //  <ion-icon name="close-outline"></ion-icon>
+                 <GrClose/>
               ) : (
-                <i className="fas fa-bars fa-2x"></i>
+                // <ion-icon name="list-outline"></ion-icon>
+                <FaBarsStaggered/>
+              
               )}
             </div>
           </button>
@@ -50,4 +56,4 @@ const Navbar = (props) => {
   )
 }
 
-export default Navbar
+export default React.memo(Navbar)

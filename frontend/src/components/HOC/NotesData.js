@@ -12,10 +12,8 @@ const NotesData = (Component) => {
         const dispatch = useDispatch();
         const [getUser] = useGetUserMutation();
         const token = localStorage.getItem('jwtToken');
-        console.log(token)
         useEffect(() => {
             getUser(token).then(data =>{
-                console.log(data.data._id);
                 dispatch(userIdState(data.data._id));
                 dispatch(userInfo(data.data));
               }).catch(err =>{

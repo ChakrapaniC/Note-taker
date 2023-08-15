@@ -101,4 +101,4 @@ const Head = () => {
     )
 }
 
-export default NotesData(Head)
+export default NotesData(Head);

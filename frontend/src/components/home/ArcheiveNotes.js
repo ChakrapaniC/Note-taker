@@ -30,7 +30,8 @@ const ArcheiveNotes = (props) => {
                 return <Card item={item} key={item._id} />;
             } else {
                 return (
-                    <table className="w-[95%] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
+                  <div className="overflow-x-auto">
+                    <table className="md:w-[95%] w-[500px] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
                         <thead>
                             <tr className="bg-black text-white">
                                 <th className="text-left py-2 pl-2 rounded-tl-lg" colSpan={2}>
@@ -44,6 +45,7 @@ const ArcheiveNotes = (props) => {
                             <Card key={item._id} grid={grid} item={item} />
                         </tbody>
                     </table>
+                  </div>
                 );
             }
         }
@@ -60,7 +62,7 @@ const ArcheiveNotes = (props) => {
     return (
         <div className="w-full flex min-h-screen md:h-auto">
             <div
-                className={`  ${result.length!==0 ? 'md:w-[25%]' : 'md:w-[20%]'} ${sidebarOpen
+                className={`  ${result.length!==0 ? 'lg:w-[25%] md:w-[45%]' : 'lg:w-[20%] md:w-[40%]'} ${sidebarOpen
                     ? "w-[60%] z-[50]  animate-slide-in"
                     : "w-0 z-0 overflow-hidden animate-slide-out delay-300"
                     } md:animate-none md:z-0 md:block fixed z-[50] top-0 left-0 md:static  md:shadow-none shadow-md  `}
@@ -69,7 +71,7 @@ const ArcheiveNotes = (props) => {
             </div>
             {
               result !== undefined && result?.length!==0 ?
-                <div className=" md:-[75%] w-full ">
+                <div className=" lg:-[75%] md:-[65%] w-full ">
                     <div className="w-[95%]  h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10">
                         <div className="flex justify-between items-center px-6 py-4 text-2xl">
                             <p className=" dark:text-white">Archeive Notes :-</p>

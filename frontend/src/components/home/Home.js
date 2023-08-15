@@ -69,7 +69,8 @@ const Home = (props) => {
             ) : (
               Result !== undefined &&
               Array.isArray(Result) && (
-                <table className="md:w-[95%]   mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
+              <div className="overflow-x-auto">
+                <table className="md:w-[95%] w-[500px] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
                   <thead>
                     <tr className="bg-black text-white">
                       <th
@@ -88,6 +89,7 @@ const Home = (props) => {
                     ))}
                   </tbody>
                 </table>
+              </div>
               )
             )}
           </section> : <div className="w-[95%] flex items-center justify-center  text-2xl font-semibold md:h-[250px]  mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2 ">Please Add And Manage Your Daily Tasks And Workflow In A Better Way  :-)</div>

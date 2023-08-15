@@ -105,19 +105,25 @@ const Register = (props) => {
                         </div>
                         <div className='text-xl w-[85%] mx-auto mb-6  '>
                             <p className='mb-2'>Password</p>
+                            <div className='relative'>
                             <input type={`${Show ? 'text' : 'password'}`} id='password ' name='password' value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder='create a password' className='w-full rounded-xl h-[40px] text-black  font-semibold px-2 text-lg' />
-                            {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
+                           
                             {
                                 Show ? (
-                                    <AiOutlineEye className='absolute top-[77.5%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={()=> {setShow(!Show)}}/>
+                                    <AiOutlineEye className='absolute top-2 right-6 text-black dark:text-white text-2xl cursor-pointer' onClick={()=> {setShow(!Show)}}/>
                                 ) : (
-                                    <AiOutlineEyeInvisible className='absolute top-[77.5%] right-14 text-black dark:text-white text-2xl cursor-pointer' onClick={()=> {setShow(!Show)}}/>
+                                    <AiOutlineEyeInvisible className='absolute top-2 right-6 text-black dark:text-white text-2xl cursor-pointer' onClick={()=> {setShow(!Show)}}/>
                                 )
                             }
+                            </div>
+                            {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
                         </div>
 
                         <div className='w-[85%] mx-auto mb-4 px-4 py-2  rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:border-2 hover:border-red-600 hover:rounded-xl'>
                             <button type='submit'>signup</button>
+                        </div>
+                        <div className='w-[85%] mx-auto px-4 py-2  mb-2 rounded-lg text-center text-xl   '>
+                            <button type='button'>Already Have Account?&nbsp;<span className='text-red-400 hover:text-orange-400' onClick={() => dispatch(loginToggle(true))}>Login</span></button>
                         </div>
                     </form>
                 </div>
