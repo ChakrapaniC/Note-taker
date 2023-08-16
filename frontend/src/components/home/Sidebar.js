@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import person from '../image/person.png'
+import person from '../image/person-removebg-preview.png'
 import { sidebar } from '../../features/createslice/userSlice';
 import moment from 'moment';
 
@@ -91,7 +91,7 @@ const Sidebar = (props) => {
                         <i class="fa-solid fa-circle-info"></i>
                     </div>
                     <div className='flex gap-3 justify-center items-center  py-3 mb-4 text-2xl border-none bg-green-300 hover:bg-green-400 rounded-lg mx-auto w-[180px]'>
-                        <button>Contact</button>
+                        <button component={Link} to="/contact">Contact</button>
                         <i class="fa-solid fa-user"></i>
                     </div>
                 </div>

@@ -13,6 +13,7 @@ const Home = React.lazy(()=> import('./components/home/Home'))
 const FavoriteNote = React.lazy(()=> import('./components/home/FavoriteNote'))
 const ArcheiveNotes = React.lazy(()=> import('./components/home/ArcheiveNotes'))
 const Login = React.lazy(()=> import('./components/userAuth/login/Login'))
+const Contact = React.lazy(()=> import('./components/contact/Contact'))
 
 function App() {
   const [darkMode, setdarkMode] = useState(false);
@@ -41,13 +42,14 @@ function App() {
                
                 <ToastContainer />
               
-                <Suspense fallback={  <div className=' flex justify-center items-center h-screen'><ScaleLoader color="red" /></div>}>
+                <Suspense fallback={<div className=' flex justify-center items-center h-screen'><ScaleLoader color="red" /></div>}>
                   <Routes>
                     <Route path='/' element={<Login/>} />
                     <Route path='/home' element={<Home />} />
                     <Route path='/favoriteNote' element={<FavoriteNote />} />
                     <Route path='/ArchiveNote' element={<ArcheiveNotes />} />
                     <Route path='/TrashNote' element={<TrashNote/>}/>
+                    <Route path='/contact' element={<Contact/>}/>
                   </Routes>
                 </Suspense> 
               </>

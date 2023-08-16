@@ -91,7 +91,7 @@ module.exports = {
         'slide-up':'slideUp 0.30s ease',
         'slide-top':'slideTop 0.50s ease',
         'slide-right': 'slideRight 1s linear',
-        'slide-loader': 'loader 0.80s linear'
+        'slide-loader': 'loader 0.50s linear'
       },
     },
   },

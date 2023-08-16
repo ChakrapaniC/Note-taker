@@ -95,7 +95,7 @@ const Login = () => {
     return (
 
         <div className='h-[100vh] w-full flex bg-cutom-white'>
-            <div className='md:w-[50%] h-screen relative md:block hidden'><img src={logo} alt="loading" className=' mt-14 ml-14 bg-no-repeat bg-contain animate-slide-right' />
+            <div className='lg:w-[50%] h-screen relative lg:block hidden'><img src={logo} alt="loading" className=' md:ml-0 mt-14 lg:ml-14 bg-no-repeat bg-contain animate-slide-right' />
                 <div className='absolute top-[20%] left-10 flex flex-col'>
                     <div className='text-[40px] mb-4 font-bold inline-block bg-gradient-to-r from-red-600 via-yellow-500 to-pink-400 text-transparent bg-clip-text'>
                         Welcome to
@@ -110,12 +110,12 @@ const Login = () => {
                     </div>      */}
                 </div>
             </div>
-            <div className='md:w-[50%] w-full min-h-screen relative bg-black flex justify-center items-center'>
+            <div className='lg:w-[50%] w-full min-h-screen relative bg-black flex justify-center items-center'>
 
                 {
                     isActive ? (
                         <>
-                            <div className='md:absolute md:top-[20%] md:left-[-13.7%] hidden md:block '>
+                            <div className='lg:absolute  top-[20%] lg:left-[-13.7%] hidden lg:block '>
                                 <p className={`group px-5 py-2 text-xl mb-2 cursor-pointer  ${isActive ? 'bg-black  text-white dark:text-black dark:bg-white border-none rounded-tl-[20px] rounded-bl-[20px]' : 'text-black dark:text-white'
                                     } focus:outline-none focus:ring focus:bg-blue-500 focus:border-blue-500`}
                                     onClick={() => dispatch(loginToggle(true))}>login</p>
@@ -127,7 +127,7 @@ const Login = () => {
                                 <div> <img src={note} alt="..loading" className='h-screen w-full bg-cover hidden md:block' />
                                     <img src={paper} alt="..loading" className='h-screen w-full bg-cover md:hidden' />
                                 </div>
-                                <div className='md:w-[450px]  w-[350px] h-auto absolute md:top-[20%] md:left-[25%] top-[20%] left-5 border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
+                                <div className='sm:w-[450px]  w-[350px] h-auto absolute top-[20%] sm:left-[25%]  left-auto border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
                                     <p className='mt-2 mb-4 text-[30px] text-center font-semibold'>LogIn</p>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className=' w-[85%] mx-auto'>
