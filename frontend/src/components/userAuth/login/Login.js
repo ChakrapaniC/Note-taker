@@ -127,7 +127,7 @@ const Login = () => {
                                 <div> <img src={note} alt="..loading" className='h-screen w-full bg-cover hidden md:block' />
                                     <img src={paper} alt="..loading" className='h-screen w-full bg-cover md:hidden' />
                                 </div>
-                                <div className='sm:w-[450px]  w-[350px] h-auto absolute top-[20%] sm:left-[25%]  left-auto border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
+                                <div className='sm:w-[450px]  w-[350px] h-auto absolute top-[20%] sm:left-[25%]  left-5 border-2 border-opacity-50 border-white rounded-xl backdrop-blur-xl text-black bg-transparent md:text-white flex flex-col  '>
                                     <p className='mt-2 mb-4 text-[30px] text-center font-semibold'>LogIn</p>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className=' w-[85%] mx-auto'>
