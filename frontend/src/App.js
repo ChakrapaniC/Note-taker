@@ -9,11 +9,11 @@ import Loader from './components/loader/Loader';
 import TrashNote from './components/trash/DeleteNote';
 import { ScaleLoader } from 'react-spinners';
 
-const Home = React.lazy(()=> import('./components/home/Home'))
-const FavoriteNote = React.lazy(()=> import('./components/home/FavoriteNote'))
-const ArcheiveNotes = React.lazy(()=> import('./components/home/ArcheiveNotes'))
-const Login = React.lazy(()=> import('./components/userAuth/login/Login'))
-const Contact = React.lazy(()=> import('./components/contact/Contact'))
+const Home = React.lazy(() => import('./components/home/Home'))
+const FavoriteNote = React.lazy(() => import('./components/Favorite/FavoriteNote'))
+const ArcheiveNotes = React.lazy(() => import('./components/Archive/ArcheiveNotes'))
+const Login = React.lazy(() => import('./components/userAuth/login/Login'))
+const Contact = React.lazy(() => import('./components/contact/Contact'))
 
 function App() {
   const [darkMode, setdarkMode] = useState(false);
@@ -29,29 +29,29 @@ function App() {
     }, 1100);
   }, [])
 
- 
+
   return (
     <>
       <div className={`${darkMode ? 'dark' : ''} `}>
-        <div className=' font-sans bg-custom-white dark:bg-black relative transition duration-300 ease-in-out'>
+        <div className=' font-sans bg-custom-white dark:bg-black relative transition duration-300 ease-in-out '>
           {
             loading === true ? <Loader />
               :
               <>
                 <Navbar toggleMode={toggleMode} />
-               
+
                 <ToastContainer />
-              
+
                 <Suspense fallback={<div className=' flex justify-center items-center h-screen'><ScaleLoader color="red" /></div>}>
                   <Routes>
-                    <Route path='/' element={<Login/>} />
+                    <Route path='/' element={<Login />} />
                     <Route path='/home' element={<Home />} />
                     <Route path='/favoriteNote' element={<FavoriteNote />} />
                     <Route path='/ArchiveNote' element={<ArcheiveNotes />} />
-                    <Route path='/TrashNote' element={<TrashNote/>}/>
-                    <Route path='/contact' element={<Contact/>}/>
+                    <Route path='/TrashNote' element={<TrashNote />} />
+                    <Route path='/contact' element={<Contact />} />
                   </Routes>
-                </Suspense> 
+                </Suspense>
               </>
           }
         </div>

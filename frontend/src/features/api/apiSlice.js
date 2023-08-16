@@ -8,7 +8,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
         getNotes: builder.query({
            query: (id)=> `/notes/${id}`,
            transformResponse: (response) => {
-            if (Array.isArray(response)) {
+            if(response){
               response.Notes.reverse();
               return response;
             } else {

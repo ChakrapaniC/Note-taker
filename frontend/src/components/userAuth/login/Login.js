@@ -4,10 +4,10 @@ import logo from '../../image/bg34-1.png';
 import paper from '../../image/8810413.jpg'
 import Register from '../register/Register';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginToggle, userIdState } from '../../../features/createslice/userSlice';
+import { loginToggle} from '../../../features/createslice/userSlice';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useGetNotesQuery, useLoginMutation } from '../../../features/api/apiSlice';
+import {  useLoginMutation } from '../../../features/api/apiSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
@@ -94,7 +94,7 @@ const Login = () => {
     }
     return (
 
-        <div className='h-[100vh] w-full flex bg-cutom-white'>
+        <div className='h-screen w-full flex bg-cutom-white'>
             <div className='lg:w-[50%] h-screen relative lg:block hidden'><img src={logo} alt="loading" className=' md:ml-0 mt-14 lg:ml-14 bg-no-repeat bg-contain animate-slide-right' />
                 <div className='absolute top-[20%] left-10 flex flex-col'>
                     <div className='text-[40px] mb-4 font-bold inline-block bg-gradient-to-r from-red-600 via-yellow-500 to-pink-400 text-transparent bg-clip-text'>
@@ -115,7 +115,7 @@ const Login = () => {
                 {
                     isActive ? (
                         <>
-                            <div className='lg:absolute  top-[20%] lg:left-[-13.7%] hidden lg:block '>
+                            <div className='lg:absolute  top-[20%] lg:left-[-13.7%] left-4 hidden lg:block '>
                                 <p className={`group px-5 py-2 text-xl mb-2 cursor-pointer  ${isActive ? 'bg-black  text-white dark:text-black dark:bg-white border-none rounded-tl-[20px] rounded-bl-[20px]' : 'text-black dark:text-white'
                                     } focus:outline-none focus:ring focus:bg-blue-500 focus:border-blue-500`}
                                     onClick={() => dispatch(loginToggle(true))}>login</p>
@@ -142,9 +142,9 @@ const Login = () => {
                                                 {formik.errors.password && formik.touched.password ? <span className='text-red-600'>{formik.errors.password}</span> : null}
                                                 {
                                                     Show ? (
-                                                        <AiOutlineEye className='absolute top-2 right-6 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
+                                                        <AiOutlineEye className='absolute top-2 right-6 text-black  text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
                                                     ) : (
-                                                        <AiOutlineEyeInvisible className='absolute top-2 right-6 text-black dark:text-white text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
+                                                        <AiOutlineEyeInvisible className='absolute top-2 right-6 text-black  text-2xl cursor-pointer' onClick={() => { setShow(!Show) }} />
                                                     )
                                                 }
                                             </div>
@@ -152,7 +152,7 @@ const Login = () => {
                                         <div className='w-[85%] mx-auto px-4 py-2 mt-6 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:border-2 hover:border-red-600 hover:rounded-xl'>
                                             <button>Login</button>
                                         </div>
-                                        <div className='w-[85%] mx-auto px-4 py-2 mt-6 mb-3 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500  '>
+                                        <div className='w-[85%] mx-auto px-4 py-2 mt-6 mb-3 rounded-lg text-center text-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:border-2 hover:border-red-600 hover:rounded-xl '>
                                             <button type='button' onClick={demoLogin}>Demo Login</button>
                                         </div>
                                         <div className='w-[85%] mx-auto px-4 py-2  mb-2 rounded-lg text-center text-xl   '>

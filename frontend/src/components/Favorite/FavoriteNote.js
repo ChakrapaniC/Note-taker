@@ -1,35 +1,39 @@
-import React from 'react'
-import NotesData from '../HOC/NotesData';
-import Card from '../Card/Card';
+import React from "react";
+import Card from "../Card/Card";
 import { useState, useEffect } from "react";
-import { ScaleLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { gridToggle } from "../../features/createslice/userSlice";
 import Sidebar from "../Sidebar/Sidebar";
+import { ScaleLoader } from "react-spinners";
+import NotesData from "../HOC/NotesData";
 import { useNavigate } from "react-router-dom";
 
-const DeleteNote = (props) => {
-    const { data, isLoading } = props;
-    const [Trash, setTrash] = useState([]);
+const FavoriteNote = (props) => {
+    const { data, isLoading } = props
+    const [Favorite, setFavorite] = useState([]);
+
 
     const grid = useSelector((state) => state.toggle.grid);
     const sidebarOpen = useSelector((state) => state.toggle.sidebar);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // const userid = useSelector((state)=> state.toggle.userid)
+    // const { data } = useGetNotesQuery(userid);
 
     console.log(grid);
     useEffect(() => {
-        const result = data !== undefined && data?.Notes.filter((x) => x.isTrash === true);
-        setTrash(result);
-    }, [data]);
+        const result = data !== undefined && data?.Notes.filter((x) => x.isFav === true && x.isTrash === false);
+        setFavorite(result);
+        console.log(result);
+    }, [data, grid]);
 
-    const TrashCard = (item) => {
-        if (item.isTrash) {
+    const FavoriteCard = (item) => {
+        if (item.isFav) {
             if (grid === true) {
                 return <Card item={item} key={item._id} />;
             } else {
                 return (
-                    <div className='overflow-x-auto'>
+                    <div className="overflow-x-auto">
                         <table className="md:w-[95%] w-[500px] mx-auto table-fixed border-collapse my-2 border-2 animate-pop-up">
                             <thead>
                                 <tr className="bg-black text-white">
@@ -68,11 +72,11 @@ const DeleteNote = (props) => {
                 <Sidebar />
             </div>
             {
-                Trash !== undefined && Trash?.length !== 0 ?
+                Favorite !== undefined && Favorite?.length !== 0 ?
                     <div className="md:w-[80%] w-full">
                         <div className="w-[95%]  h-auto mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">
-                            <div className=" flex justify-between items-center px-6 py-4 text-2xl">
-                                <p className=" dark:text-white">Trash Notes :-</p>
+                            <div className=" flex justify-between  items-center px-6 py-4 text-2xl">
+                                <p className=" dark:text-white">Favorite Notes :-</p>
                                 {grid ? (
                                     <ion-icon
                                         name="grid-outline"
@@ -90,16 +94,16 @@ const DeleteNote = (props) => {
                                 )}
                             </div>
                             <div className="block md:hidden text-2xl mt-2 ml-4" onClick={() => { navigate('/home') }}><ion-icon name="arrow-back-circle-outline"></ion-icon></div>
-                            <div className="flex flex-wrap mx-2.5">
-                                {Trash !== undefined &&
-                                    Array.isArray(Trash) &&
-                                    Trash?.map((item) => TrashCard(item))}
+                            <div className="flex flex-wrap ">
+                                {Favorite !== undefined &&
+                                    Array.isArray(Favorite) &&
+                                    Favorite?.map((item) => FavoriteCard(item))}
                             </div>
                         </div>
-                    </div> : <div className=" md:w-[80%] mx-auto "><div className="md:w-[95%] w-full p-2 flex items-center justify-center text-2xl font-semibold h-[250px] mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">Trash Component is Empty :-)</div></div>
+                    </div> : <div className=" md:w-[80%] w-[90%] mx-auto "><div className="w-full md:w-[95%] p-2 flex items-center justify-center text-2xl font-semibold h-[250px] mx-auto bg-white dark:bg-slate-900 rounded-lg dark:text-white mt-10 border-2">Favorite Component is Empty :-)</div></div>
             }
         </div>
-    )
-}
+    );
+};
 
-export default NotesData(DeleteNote)
+export default NotesData(FavoriteNote);

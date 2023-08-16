@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import avatar from '../image/avatar.png'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,13 +7,14 @@ import person from '../image/person-removebg-preview.png'
 import { sidebar } from '../../features/createslice/userSlice';
 import moment from 'moment';
 
-const Sidebar = (props) => {
+const Sidebar = () => {
     const [userDetails, setuserDetails] = useState([]);
     const [FullDetail, setFullDetail] = useState(false)
     const navigate = useNavigate();
     const temp = useSelector((state) => state.toggle.userinfo);
     console.log(temp)
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const deleteToken = () => {
         localStorage.removeItem('jwtToken');
@@ -53,17 +53,17 @@ const Sidebar = (props) => {
                 {/* <div className=' hover:text-red-500 text-3xl inline-block absolute right-2 top-2 md:hidden ' onClick={props.toggleMenu}>
                     <ion-icon name="close-outline"></ion-icon>
                 </div> */}
-                <div className={`flex flex-col items-center ${FullDetail ? 'h-[200px] transition-all ease-linear duration-150' : 'h-[137px] transition-all ease-linear duration-150 overflow-hidden'} py-4  g-2  text-xl border-b-2 `}>
+                <div className={`flex flex-col  items-center ${FullDetail ? 'h-[200px] transition-all ease-linear duration-150' : 'h-[142px] transition-all ease-linear duration-150 overflow-hidden'} py-4  g-2  text-xl border-b-2 `}>
                     {/* <img src={avatar} alt="avatr" className='w-[70px] h-[70px]  shadow-sm filter-drop' /> */}
-                    <div className='bg-orange-400 p-6 border-none rounded-[50%] ml-2'>
+                    <div className='bg-orange-400 p-6 border-none rounded-[50%] text-2xl font-bold'>
                         {temp !== undefined && temp.length !== 0 ? (
 
                             <p>{temp?.firstname[0]?.toUpperCase()}{temp?.lastname[0]?.toUpperCase()}</p>
 
                         ) : <p>undefined</p>}
                     </div>
-                    <div className='mt-2 text-center '>
-                        <p>{userDetails?.firstname}&nbsp;{userDetails?.lastname} </p>
+                    <div className='mt-2  '>
+                        <p className=' font-semibold text-center'>{userDetails?.firstname}&nbsp;{userDetails?.lastname} </p>
                         <span className='float-right mt-[-24px] cursor-pointer' onClick={() => { setFullDetail(!FullDetail) }}>{
                             FullDetail ? <ion-icon name="arrow-up-circle-outline"></ion-icon> : <ion-icon name="chevron-down-circle-outline"></ion-icon>
                         }</span>
@@ -74,24 +74,24 @@ const Sidebar = (props) => {
 
                 <div className='border-b-2'>
                     {/* <p>Menu</p> */}
-                    <ul className='flex flex-col mt-2 md:mx-0 mx-2 '>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/home' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="home-outline"></ion-icon>Home</Link></li>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/ArchiveNote' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="archive-outline"></ion-icon>Archive</Link></li>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/favoriteNote' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="star-outline"></ion-icon>Favorite</Link></li>
-                        <li className='  hover:border-b-2 hover:border-red-500   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold'><Link to='/TrashNote' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="trash-outline"></ion-icon>Trash</Link></li>
+                    <ul className='flex flex-col mt-2 md:mx-2 mx-2 '>
+                        <li className={`   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold ${location.pathname === '/home' ? 'text-red-400 border-l-4 border-r-4 rounded-lg border-red-500 ' : ''}`}><Link to='/home' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="home-outline"></ion-icon>Home</Link></li>
+                        <li className={`   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold ${location.pathname === '/ArchiveNote' ? 'text-red-400 border-l-4 border-r-4 rounded-lg border-red-500' : ''}`}><Link to='/ArchiveNote' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="archive-outline"></ion-icon>Archive</Link></li>
+                        <li className={`   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold ${location.pathname === '/favoriteNote' ? 'text-red-400 border-l-4 border-r-4 border-b-2 border-t-2 rounded-lg border-red-500' : ''}`}><Link to='/favoriteNote' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="star-outline"></ion-icon>Favorite</Link></li>
+                        <li className={`   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold ${location.pathname === '/TrashNote' ? 'text-red-400 border-l-4 border-r-4 rounded-lg border-red-500' : ''}`}><Link to='/TrashNote' className='flex gap-4 p-4 md:gap-4  md:p-5 mx-2 md:mx-4' onClick={closeSidebar}><ion-icon name="trash-outline"></ion-icon>Trash</Link></li>
                     </ul>
                 </div>
                 <div className='my-4'>
-                    <div className='flex gap-3 justify-center items-center  py-3 my-4 text-2xl border-none bg-blue-400 hover:bg-blue-500 rounded-lg mx-auto w-[180px] '>
+                    <div className='flex gap-3 justify-center items-center  py-3 my-6 text-2xl border-none bg-blue-400 hover:bg-blue-500 rounded-lg mx-auto w-[180px] '>
                         <button className='' onClick={deleteToken}>Logout </button>
                         <ion-icon name="log-out-outline"  ></ion-icon>
                     </div>
-                    <div className='flex gap-3 justify-center items-center  py-3 my-4 text-2xl border-none bg-red-300 hover:bg-red-400  rounded-lg mx-auto w-[180px] '>
+                    {/* <div className='flex gap-3 justify-center items-center  py-3 my-4 text-2xl border-none bg-red-300 hover:bg-red-400  rounded-lg mx-auto w-[180px] '>
                         <button>About</button>
                         <i class="fa-solid fa-circle-info"></i>
-                    </div>
+                    </div> */}
                     <div className='flex gap-3 justify-center items-center  py-3 mb-4 text-2xl border-none bg-green-300 hover:bg-green-400 rounded-lg mx-auto w-[180px]'>
-                        <button component={Link} to="/contact">Contact</button>
+                        <button ><Link to='/contact'>Contact</Link></button>
                         <i class="fa-solid fa-user"></i>
                     </div>
                 </div>

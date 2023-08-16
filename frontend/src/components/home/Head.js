@@ -1,6 +1,5 @@
 import React from 'react';
-import pen from '../image/edit.png';
-import { useState , useEffect} from 'react';
+import { useState} from 'react';
 import { useAddNoteMutation, } from '../../features/api/apiSlice';
 import { toast } from 'react-toastify';
 import {  useSelector } from 'react-redux';
@@ -39,20 +38,7 @@ const Head = () => {
        setDescription('');
     };
 
-    useEffect(() => {
-    //   const token = localStorage.getItem('jwtToken');
-    //   console.log(token);
-    //   getUser(token).then(data =>{
-    //     console.log(data.data._id);
-    //     dispatch(userIdState(data.data._id));
-    //   }).catch(err =>{
-    //     console.log(err);
-    //   });
-    console.log("printed")
-    }, [] )
-      
-    
-    // }, [])
+
     
     return (
         <>
