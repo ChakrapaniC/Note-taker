@@ -13,7 +13,7 @@ const Contact = () => {
                     <Sidebar />
                 </div>
                 <div className='md:w-[80%] w-full '>
-                    <div className="w-[95%] h-screen  lg:h-[600px] mx-auto bg-white dark:bg-slate-900  dark:text-white mt-10 rounded-xl border-none relative  ">
+                    <div className="w-[95%] h-screen  lg:h-[600px] mx-auto md:bg-white dark:md:bg-slate-900  dark:text-white mt-10 rounded-xl border-none relative  ">
                         <div className='w-full h-[50%] hidden md:block bg-gradient-to-r from-red-500 to-fuchsia-500 rounded-t-lg'>
 
                         </div>
@@ -21,7 +21,7 @@ const Contact = () => {
                             <div className='w-full md:w-[450px] h-[450px] rounded-xl bg-gradient-to-r from-orange-100 to-pink-200 mx-auto dark absolute md:top-[20%] top-[15%] flex flex-col shadow-xl items-center dark:text-black'>
                                 <div className='bg-gradient-to-r from-green-200 to-fuchsia-300 rounded-xl h-[40%] w-full'></div>
                                 <div className='bg-transparent backdrop-blur-2xl p-5  rounded-[50%] border-[1px] border-black absolute top-10 shadow-2xl'>
-                                    <img src={avatar} alt="avatar" className='w-[200px] h-[170px]' />
+                                    <img src={avatar} alt="avatar" className='w-[180px] h-[170px]' />
                                 </div>
                                 <div className='text-xl font-bold mt-[90px]'><p>Chakrapani Chaturvedi</p> </div>
                                 <div className='text-xl font-bold'><p>BTECH CSE</p></div>

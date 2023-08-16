@@ -53,9 +53,9 @@ const Sidebar = () => {
                 {/* <div className=' hover:text-red-500 text-3xl inline-block absolute right-2 top-2 md:hidden ' onClick={props.toggleMenu}>
                     <ion-icon name="close-outline"></ion-icon>
                 </div> */}
-                <div className={`flex flex-col  items-center ${FullDetail ? 'h-[200px] transition-all ease-linear duration-150' : 'h-[142px] transition-all ease-linear duration-150 overflow-hidden'} py-4  g-2  text-xl border-b-2 `}>
+                <div className={`flex flex-col  items-center ${FullDetail ? 'h-[200px] transition-all ease-linear duration-150' : 'h-[137px] transition-all ease-linear duration-150 overflow-hidden'} py-4  g-2  text-xl border-b-2 `}>
                     {/* <img src={avatar} alt="avatr" className='w-[70px] h-[70px]  shadow-sm filter-drop' /> */}
-                    <div className='bg-orange-400 p-6 border-none rounded-[50%] text-2xl font-bold'>
+                    <div className='bg-orange-400 p-6 border-none rounded-[50%] text-xl font-bold'>
                         {temp !== undefined && temp.length !== 0 ? (
 
                             <p>{temp?.firstname[0]?.toUpperCase()}{temp?.lastname[0]?.toUpperCase()}</p>
@@ -91,7 +91,7 @@ const Sidebar = () => {
                         <i class="fa-solid fa-circle-info"></i>
                     </div> */}
                     <div className='flex gap-3 justify-center items-center  py-3 mb-4 text-2xl border-none bg-green-300 hover:bg-green-400 rounded-lg mx-auto w-[180px]'>
-                        <button ><Link to='/contact'>Contact</Link></button>
+                        <button onClick={closeSidebar} ><Link to='/contact'>Contact</Link></button>
                         <i class="fa-solid fa-user"></i>
                     </div>
                 </div>
