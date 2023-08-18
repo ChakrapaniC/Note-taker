@@ -13,7 +13,6 @@ const Navbar = (props) => {
   const [dark, setdark] = useState(false);
 
   const value = useSelector((state) => state.toggle.sidebar);
-  console.log(value)
   const dispatch = useDispatch();
 
   function toggleMenu() {
@@ -38,12 +37,12 @@ const Navbar = (props) => {
           <button className='mr-9 font-semibold text-lg '>
             <div className='items-center md:hidden text-3xl' onClick={toggleMenu}>
               {value ? (
-              //  <ion-icon name="close-outline"></ion-icon>
-                 <GrClose/>
+                //  <ion-icon name="close-outline"></ion-icon>
+                <GrClose />
               ) : (
                 // <ion-icon name="list-outline"></ion-icon>
-                <FaBarsStaggered/>
-              
+                <FaBarsStaggered />
+
               )}
             </div>
           </button>

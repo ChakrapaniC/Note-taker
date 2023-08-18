@@ -12,11 +12,11 @@ const Home = (props) => {
   const grid = useSelector((state) => state.toggle.grid);
   const dispatch = useDispatch();
   const sidebarOpen = useSelector((state) => state.toggle.sidebar);
-  console.log(sidebarOpen)
+
   // const userid = useSelector((state)=> state.toggle.userid);
   // const { data } = useGetNotesQuery(userid);
 
-  console.log(grid);
+
   useEffect(() => {
     const temp = data !== undefined && data?.Notes.filter((x) => x.isArchive === false && x.isTrash === false);
     setResult(temp);

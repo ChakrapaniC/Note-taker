@@ -20,7 +20,6 @@ const Head = () => {
     // const [getUser] = useGetUserMutation();
     // const dispatch = useDispatch();
     const UserId = useSelector((state)=> state.toggle.userid);
-    console.log(UserId);
     const AddNote = () =>{
        addNote({_id: UserId , title: Title, isFav:"false", isArchive:"false", isTrash:"false", description: Description});
        toast.success('Add Note Success', {

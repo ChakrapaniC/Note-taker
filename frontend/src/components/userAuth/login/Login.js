@@ -174,4 +174,4 @@ const Login = () => {
     )
 }
 
-export default NotesData(Login);
+export default Login;

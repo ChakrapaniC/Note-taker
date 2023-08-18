@@ -14,12 +14,12 @@ const NotesData = (Component) => {
         const token = localStorage.getItem('jwtToken');
         useEffect(() => {
             getUser(token).then(data =>{
-                dispatch(userIdState(data.data._id));
+                dispatch(userIdState(data?.data?._id));
                 dispatch(userInfo(data.data));
               }).catch(err =>{
                 console.log(err);
               });
-        }, [])
+        }, [token])
         
         const userid = useSelector((state) => state.toggle.userid);
         const { data, isLoading } = useGetNotesQuery(userid);

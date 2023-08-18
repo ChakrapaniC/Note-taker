@@ -24,8 +24,6 @@ const Card = (props) => {
     //     console.log(addNote)
     const grid = useSelector((state) => state.toggle.grid);
     const userid = useSelector((state) => state.toggle.userid);
-
-    console.log(grid);
     const [changeTrash] = useUpdateTrashMutation();
     const [deleteNote] = useDeleteNoteMutation();
     const [updateItem] = useUpdateNoteMutation();
