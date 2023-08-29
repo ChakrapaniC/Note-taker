@@ -90,7 +90,7 @@ const DeleteNote = (props) => {
                                 )}
                             </div>
                             <div className="block md:hidden text-2xl mt-2 ml-4" onClick={() => { navigate('/home') }}><ion-icon name="arrow-back-circle-outline"></ion-icon></div>
-                            <div className="flex flex-wrap mx-2.5">
+                            <div className="flex flex-wrap ">
                                 {Trash !== undefined &&
                                     Array.isArray(Trash) &&
                                     Trash?.map((item) => TrashCard(item))}

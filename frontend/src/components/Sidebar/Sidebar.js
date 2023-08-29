@@ -122,7 +122,7 @@ const Sidebar = () => {
                         </li>
                         <li
                             className={`   transition duration-300 ease-out hover:translate-x-1 hover:ease-in text-2xl font-semibold ${location.pathname === "/favoriteNote"
-                                    ? "text-red-400 border-l-4 border-r-4 border-b-2 border-t-2 rounded-lg border-red-500"
+                                    ? "text-red-400 border-l-4 border-r-4  rounded-lg border-red-500"
                                     : ""
                                 }`}
                         >

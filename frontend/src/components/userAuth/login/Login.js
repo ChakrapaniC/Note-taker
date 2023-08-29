@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { ScaleLoader } from 'react-spinners';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from 'react';
-import NotesData from '../../HOC/NotesData';
+
 
 
 const Login = () => {

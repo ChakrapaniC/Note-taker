@@ -321,6 +321,7 @@ const Card = (props) => {
                                             settitle(item.title);
                                             setdescription(item.description);
                                             setNoteId(item._id);
+                                            window.scrollTo(0, 0);
                                         }}
                                     >
                                         <ion-icon name="create-outline"></ion-icon>
