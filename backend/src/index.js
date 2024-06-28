@@ -27,7 +27,7 @@ app.use(logger('dev'));
 app.use(cors());
 
 app.use(cors({
-    origin: 'https://note-taker-front-end.vercel.app', // your frontend URL
+    origin: '*', // your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
