@@ -16,7 +16,7 @@ const app = express();
 
 
 const store = new MongoDBStore({
-    uri:'mongodb+srv://dukesharma71:Atlasforfirst@cluster0.hcsddtz.mongodb.net/NotesManager',
+    uri:'mongodb+srv://dukesharma71:Netflix-cluster@cluster0.hcsddtz.mongodb.net/NotesManager',
     collection: 'app_sessions'
 })
 
@@ -38,7 +38,7 @@ app.use(session({
     resave:false
 }));
 
-mongoose.connect('mongodb+srv://dukesharma71:Atlasforfirst@cluster0.hcsddtz.mongodb.net/NotesManager');
+mongoose.connect('mongodb+srv://dukesharma71:Netflix-cluster@cluster0.hcsddtz.mongodb.net/NotesManager');
 mongoose.connection.once('open',()=>{
     console.log('connected to db');
 }).on('error',()=>{

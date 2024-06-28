@@ -33,7 +33,7 @@ function VerifyToken(token){
     }
 }
 
-function GenerateToken(user){
+function GenerateToken(user){ 
     console.log("generate function called", user);
     return jwt.sign(user, SECRET_KEY, { expiresIn: '1d' });
 }
