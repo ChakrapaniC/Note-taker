@@ -8,15 +8,16 @@ const UserModel = require('./Model/userModel');
 const {PassportAuth} = require('./Auth/userAuth');
 const cors = require('cors');
 const session = require('express-session');
-require('dotenv').config({ path: 'env' });
+require('dotenv').config();
+const MONGO_URI = process.env.MONGO_URI; 
 const MongoDBStore = require('connect-mongodb-session')(session);
 // const cookieParser = require('cookie-parser')
 // app.use(cookieParser());
 const app = express();
 
-
+console.log("db uri is" , MONGO_URI);
 const store = new MongoDBStore({
-    uri:'mongodb+srv://dukesharma71:Netflix-cluster@cluster0.hcsddtz.mongodb.net/NotesManager',
+    uri: MONGO_URI,
     collection: 'app_sessions'
 })
 
@@ -26,7 +27,7 @@ app.use(logger('dev'));
 app.use(cors());
 
 
-console.log(process.env.MONGO_URI);
+
 
 app.use(session({
     secret:'this is my secret key',
@@ -38,7 +39,7 @@ app.use(session({
     resave:false
 }));
 
-mongoose.connect('mongodb+srv://dukesharma71:Netflix-cluster@cluster0.hcsddtz.mongodb.net/NotesManager');
+mongoose.connect(MONGO_URI);
 mongoose.connection.once('open',()=>{
     console.log('connected to db');
 }).on('error',()=>{
